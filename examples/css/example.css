@@ -1,0 +1,101 @@
+
+
+body {
+  background-color: white;
+  min-width: 25vw;
+  min-height: 25vh;
+}
+/*
+.canvan-slider-container {
+    width: 100%;
+    height: 100%;
+    //height: 600px;
+    //min-height: 100vh;
+    //max-width: 75%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.canvan-slider-embed {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: initial;
+    overflow: hidden;
+}
+
+    .canvan-slider-embed img {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        max-width: initial;
+    }
+
+.canvan-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    //height: 100vh;
+}
+
+    .canvan-slider img {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        max-width: initial;
+    }
+
+
+.canvan-slider-canvas {
+    position: absolute;
+    height: 100%;
+    display: inline-block;
+    max-height: initial;
+    max-width: initial;
+    margin-bottom: 0;
+    width: auto;
+} */
+
+
+.canvan-slider-container {
+    width: 900px;
+    height: 600px; 
+    max-width: initial;
+}
+
+.canvan-animator {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.canvan-slider {
+}
+
+
+.canvan-slider-mouse-down {
+    cursor: grabbing;
+}
+
+.canvan-slider-canvas {
+    position: absolute;
+    height: 100%;
+    display: inline-block;
+    max-height: initial;
+    max-width: initial;
+    margin-bottom: 0;
+    width: auto;
+}
+
+.canvan-linear-slider img {
+    display: none;
+}
+
+.canvan-radial-slider img {
+    display: none;
+}
+    
+  
