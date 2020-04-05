@@ -6,8 +6,9 @@ import { EventDispatcher } from "../eventDispatcher";
 import { EventType, EventParams } from "../eventTypes";
 
 export abstract class MultiCanvasAnimationElement implements Animatable {
-    constructor() {
+    constructor(public selectorPrefix: string) {
         this.canvasLayers = [];
+        this.selectorPrefix = selectorPrefix;
     }
 
     async init(): Promise<void> {
@@ -29,14 +30,15 @@ export abstract class MultiCanvasAnimationElement implements Animatable {
     abstract parseOptions();
     abstract step(timestamp: number);
     abstract get active(): boolean;
-    abstract parseAndBuildChildren();
+    abstract parseAndBuildChildren(): void;
 
     protected canvasLayers: CanvasAnimationElement[];
 }
 
 export abstract class MultiCanvasDragableAnimationElement {
-    constructor() {
+    constructor(selectorPrefix: string) {
         this.canvasLayers = [];
+        this.selectorPrefix = selectorPrefix;
     }
 }
 

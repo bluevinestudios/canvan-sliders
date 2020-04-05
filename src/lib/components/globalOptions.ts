@@ -9,7 +9,7 @@ export class GlobalOptions extends Options {
      * Constructor
      * @param dragable 'true' if component allows dragging.
      */
-    constructor(public dragable: boolean = constants.defaultDragable) {
+    constructor(public dragable: boolean = true) {
         super();
 
         this.dragable = dragable;
@@ -22,7 +22,7 @@ export class GlobalOptions extends Options {
      */
     parse(element: Element) {
         let dragable: boolean = utils.assignNullableAttribute(element,
-            constants.dragableParamName, constants.defaultDragable) as boolean;
+            constants.dragableParamName, this.dragable) as boolean;
         this.dragable = dragable;
     }
 }

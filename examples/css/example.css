@@ -59,7 +59,7 @@ body {
 } */
 
 
-.canvan-slider-container {
+.canvan-container {
     width: 900px;
     height: 600px; 
     max-width: initial;
@@ -80,7 +80,7 @@ body {
     cursor: grabbing;
 }
 
-.canvan-slider-canvas {
+.canvan-embedded {
     position: absolute;
     height: 100%;
     display: inline-block;

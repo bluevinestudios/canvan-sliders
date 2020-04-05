@@ -1,3 +1,4 @@
+import * as utils from "./utils";
 import { CanvasBuilder } from "./components/canvasBuilder";
 import * as constants from "./constants";
 import * as error from "./error";
@@ -11,15 +12,24 @@ export namespace CanvanSliders {
          * Constructor
          * @param document Top-level document for the page.
          */
-        constructor(public document: HTMLDocument) {
+        constructor(
+            public document: HTMLDocument,
+            public selectorPrefix = "canvan"
+        ) {
             this.sliders = null;
         }
 
         /** Asynchronously query the page for selectors and initialize.  Returns a promise that when
          * completed all of the sliders have been created, images loaded, and can be animated. */
-        async scanAndCreateSliders() {
-            let elements: HTMLCollectionOf<Element>
-                = document.getElementsByClassName(constants.animatorSelectorName);
+        async scanAndCreateSliders(): Promise<void[]> {
+            let elements: HTMLCollectionOf<
+                Element
+            > = document.getElementsByClassName(
+                utils.addSelectorPrefix(
+                    this.selectorPrefix,
+                    constants.animatorSelectorName
+                )
+            );
 
             // Load all of our slider elements into an array and parse and create them.  Note, images
             // are loaded at this point and we return a promise when everythings ready to animate.
@@ -28,7 +38,11 @@ export namespace CanvanSliders {
                 let element = elements[index];
                 let elementTag = element.tagName.toLowerCase();
                 if (elementTag == "div") {
-                    this.sliders[index] = new CanvasBuilder(element, index);
+                    this.sliders[index] = new CanvasBuilder(
+                        element,
+                        this.selectorPrefix,
+                        index
+                    );
                 } else {
                     error.handleError(
                         error.ErrorType.Warning,
@@ -38,17 +52,18 @@ export namespace CanvanSliders {
                     );
                 }
             }
-            const all = this.sliders.map(
+
+            const all: Promise<void>[] = this.sliders.map(
                 async (
                     slider: CanvasBuilder,
                     index: number,
                     sliders: CanvasBuilder[]
                 ) => {
-                    return slider.parseAndBuildElements();
-                }
+                    slider.parseAndBuildElements();
+                    //return index;
+                } 
             );
-            const combine = Promise.all(all);
-            return combine;
+            return Promise.all(all);
         }
 
         /** Animate all of the sliders. */

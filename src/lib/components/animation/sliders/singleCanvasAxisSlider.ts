@@ -8,18 +8,17 @@ import { GradientRadial } from "../../gradientRadial";
 import { EventDispatcher } from "../../eventDispatcher";
 import { EventType, ResizeParams } from "../../eventTypes";
 import { GradientLinear } from "../../gradientLinear";
-import { GradientType, SliderType } from './multiCanvasAxisSlider';
+import { GradientType, SliderType } from './axisSliderTypes';
 
 /** Option names as they appear in the HTML tags. */
 const windowWidthParamName = "window-width";
 const radiusParamName = "radius";
-const startPositionParamName = "start-position";
 
 /**
  * Animated canvas that slides a visible image vertical slice across the canvas
  * left to right, looping around at the right side to the left.
  */
-export class CanvasAxisSlider extends CanvasImageAnimationElement {
+export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     constructor(
         sliderType: SliderType,
         gradientType: GradientType,
@@ -126,7 +125,7 @@ export class CanvasAxisSlider extends CanvasImageAnimationElement {
                 this.gradientTransitionWidth
             );
             gradient.addGradientStops();
-
+            
             this.context.fillStyle = gradient.gradientElement;
             this.context.fillRect(
                 0,
@@ -134,7 +133,7 @@ export class CanvasAxisSlider extends CanvasImageAnimationElement {
                 this.canvasElement.clientWidth,
                 this.canvasElement.clientHeight
             );
-            this.context.globalCompositeOperation = "source-over";
+            this.context.globalCompositeOperation = "source-over";            
         }
     }
 

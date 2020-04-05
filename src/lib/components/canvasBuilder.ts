@@ -1,13 +1,12 @@
-import * as utils from '../utils';
-import * as constants from '../constants';
-import { TouchHandler } from './touchHandler';
-import { EventDispatcher } from './eventDispatcher';
-import { Animator } from './animation/animator';
-import { GlobalOptions } from './globalOptions';
-import { MultiCanvasAnimationElement } from './animation/multiCanvasAnimationElement';
-import { MultiCanvasAxisSlider, SliderType, GradientType } from './animation/sliders/multiCanvasAxisSlider';
-//import { LinearSliders } from "./animation/sliders/linearSliders";
-//import { RadialSliders } from "./animation/sliders/radialSliders";
+import * as utils from "../utils";
+import * as constants from "../constants";
+import { TouchHandler } from "./touchHandler";
+import { EventDispatcher } from "./eventDispatcher";
+import { Animator } from "./animation/animator";
+import { GlobalOptions } from "./globalOptions";
+import { MultiCanvasAnimationElement } from "./animation/multiCanvasAnimationElement";
+import { MultiCanvasAxisSlider } from "./animation/sliders/multiCanvasAxisSlider";
+import { SliderType, GradientType } from "./animation/sliders/axisSliderTypes";
 
 /**
  *  A single slider component with 1+ images to display and animate.
@@ -18,32 +17,27 @@ export class CanvasBuilder {
      * @param container  Outermost div element that contains all of the image data.
      * @param uniqueIndex  A unique number that identifies this slider (creator must supply this number).
      */
-    constructor(container: Element, public uniqueIndex: number) {
+    constructor(container: Element, public selectorPrefix: string, public uniqueIndex: number) { 
         this.container = container;
 
         this.options = new GlobalOptions();
         this.options.parse(container);
 
         // Create a unique index to identify this slider.
-        this.className = `${constants.uniqueSelectorID}-${this.uniqueIndex}`;
+        this.className = utils.addSelectorPrefix(
+            this.selectorPrefix,
+            `${constants.uniqueSelectorID}-${this.uniqueIndex}`
+        );
 
         utils.addClass(container, this.className);
 
         this.canvasArray = [];
         this.eventDispatcher = new EventDispatcher();
-        this.touchHandler = new TouchHandler(
-            this.container,
-            this.eventDispatcher
-        );
+        this.touchHandler = new TouchHandler(this.container, this.eventDispatcher, this.selectorPrefix);
 
-        this.animator = new Animator(
-            this.container,
-            this.canvasArray,
-            this.eventDispatcher
-        );
+        this.animator = new Animator(this.container, this.canvasArray, this.eventDispatcher);
 
-        if (this.options.dragable)
-            this.touchHandler.addMouseListeners(container);
+        if (this.options.dragable) this.touchHandler.addMouseListeners(container);
     }
 
     async parseAndBuildElements(): Promise<void> {
@@ -51,38 +45,34 @@ export class CanvasBuilder {
         for (let index = 0; index < children.length; index++) {
             let classes = children[index].classList;
             if (classes != null) {
+                                
                 // Support multiple animation types with this class selection.
-                if (classes.contains(constants.linearSliderSelectorName)) {
-                    let sliders = new MultiCanvasAxisSlider(
-                        children[index],
-                        this.eventDispatcher,
-                        SliderType.Horizontal,
-                        GradientType.Linear
-                    );
-                    this.canvasArray.push(sliders);
-                } else if (
-                    classes.contains(constants.radialSliderSelectorName)
-                ) {
-                    let sliders = new MultiCanvasAxisSlider(
-                        children[index],
-                        this.eventDispatcher,
-                        SliderType.Horizontal,
-                        GradientType.Radial
-                    );
-                    this.canvasArray.push(sliders);
-                }
+                let gradientType: GradientType;
+                if (classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.linearSliderSelectorName)))
+                    gradientType = GradientType.Linear;
+                else if (classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.radialSliderSelectorName)))
+                    gradientType = GradientType.Radial
+
+                let sliders = new MultiCanvasAxisSlider(
+                    children[index],
+                    this.eventDispatcher,
+                    SliderType.Horizontal,
+                    gradientType,
+                    this.selectorPrefix
+                );
+                this.canvasArray.push(sliders);
             }
         }
-        const loadAll = this.canvasArray.map(
-            async (sliderCanvas: MultiCanvasAnimationElement, index: number) => {
-                return sliderCanvas.init();
-            }
-        );
-        let results = Promise.all(loadAll);
-        /*return new Promise<void>(async () => {
-            return Promise.all(loadAll)
-        }); */
+        const loadAll: Promise<void>[] =
+            this.canvasArray.map(async (sliderCanvas: MultiCanvasAnimationElement, index: number) => {
+                sliderCanvas.init();
+            });
+        
+        return new Promise<void>(async () => {
+            await Promise.all(loadAll);            
+        });  
     }
+
     animate() {
         this.animator.start();
     }

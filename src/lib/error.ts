@@ -1,14 +1,11 @@
 /**
- * Possible error types.
- * @readonly
+ * ErrorType defines the potential custom errors.
  */
 export enum ErrorType {
-    /** A serious error that might require program terimination or a bug in 
-     * the code. */
     Error,
-    /** Less serious warning that might indicate invalid user input. */
     Warning
 }
+
 /**
  * Basic application-specific error type.
  */

@@ -6,33 +6,25 @@
 <body>
     <div class="canvan-container">
         <div class="canvan-animator">
-            -<div class="canvan-linear-slider" transition-size="1" position-increment="0.1" dragable="true">
-                 <picture>
-                     <source srcset="/images/final_example2.webp" type="image/webp" />
-                     <img src="/images/final_example2.jpg" type="image/jpeg" static="true"  />
-                 </picture>
+            <div class="canvan-linear-slider" transition-size="1" position-increment="0.1" dragable="true">
                  <picture>
                      <source srcset="/images/source_example2.webp" type="image/webp" />
-                     <img src="/images/source_example2.jpg" type="image/jpeg"  window-width="50"/>
+                     <img src="/images/source_example2.jpg" type="image/jpeg"  static="true"/>
                  </picture>
                  <picture>
                      <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                     <img src="/images/mapped_example2.jpg" type="image/jpeg" window-width="20" />
+                     <img src="/images/mapped_example2.jpg" type="image/jpeg" window-width="50" start-position-x="50"/>
                  </picture>
 
                  <picture>
                      <source srcset="/images/color_example2.webp" type="image/webp" />
-                     <img src="/images/color_example2.jpg" type="image/jpeg" window-width="20" />
+                     <img src="/images/color_example2.jpg" type="image/jpeg" window-width="20" start-position-x="60"/>
                  </picture>
-             </div>
-            <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
+             </div> 
+             <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
                 <picture>
                     <source srcset="/images/source_example2.webp" type="image/webp" />
-                    <img src="/images/source_example2.jpg" type="image/jpeg" radius="10" start-position-x="0" start-position-y="40" static="true" />
-                </picture>
-                <picture>
-                    <source srcset="/images/final_example2.webp" type="image/webp" />
-                    <img src="/images/final_example2.jpg" type="image/jpeg" radius="10" start-position-x="70" start-position-y="20" />
+                    <img src="/images/source_example2.jpg" type="image/jpeg" radius="10" start-position-x="0" start-position-y="40" />
                 </picture>
                 <picture>
                     <source srcset="/images/mapped_example2.webp" type="image/webp" />

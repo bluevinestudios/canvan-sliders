@@ -3,6 +3,17 @@ import * as common from "./common";
 
 export type DOMEventHandler = (evt: Event) => void;
 
+
+/**
+ * Helper function that prepends a selector with a global prefix followed
+ * by a dash between the two.
+ * @param prefix
+ * @param selector
+ */
+export function addSelectorPrefix(prefix: string, selector: string) {
+    return `${prefix}-${selector}`;
+}
+
 /**
  * Add a class to an element.
  * @param element DOM Element
