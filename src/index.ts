@@ -1,1 +1,1 @@
-export * from './lib/canvan-sliders';
+export { SliderCreator } from './lib/sliderCreator';

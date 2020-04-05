@@ -1,5 +1,5 @@
 /**
- * ErrorType defines the potential custom errors.
+ * ErrorType defines the potential types of errors.
  */
 export enum ErrorType {
     Error,
@@ -11,7 +11,7 @@ export enum ErrorType {
  */
 export class SliderError extends Error {
     constructor(public errorType: ErrorType, public message: string) {
-        super(getErrorString(errorType, message));
+        super(createErrorMessage(errorType, message));
     }
 }
 
@@ -21,11 +21,15 @@ export class SliderError extends Error {
  * @param message
  */
 export function handleError(errorType: ErrorType, message: string) {
-    console.log(getErrorString(errorType, message));
+    let errorMessage = createErrorMessage(errorType, message);
+    if (errorType == ErrorType.Error)
+        console.error(errorMessage);
+    else
+        console.warn(errorMessage);
 }
 
-function getErrorString(errorType: ErrorType, message: string) {
+function createErrorMessage(errorType: ErrorType, message: string) {
     return errorType == ErrorType.Error
-        ? `ERROR!: ${message}`
-        : `Warning: ${message}`;
+        ? `Canvan Error!: ${message}`
+        : `Canvan Warning: ${message}`;
 }

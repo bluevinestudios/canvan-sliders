@@ -3,13 +3,13 @@ import * as utils from '../utils';
 import * as constants from '../constants';
 
 /**
- * Class to handle loading of a DOM image element and image slider options.
+ * Class to handle loading of a DOM image element.
  */
 export class SliderImage {
 
     /**
     * Constructor
-    * @param htmlImageElement DOM Image element as parsed (src already set).    
+    * @param htmlImageElement DOM Image element to load.
     */
     constructor(htmlImageElement: HTMLImageElement) {
         this.image = htmlImageElement;
@@ -21,13 +21,19 @@ export class SliderImage {
     *  @returns Promise that resolves when the image has been loaded.
     */
     async loadImage(): Promise<void> {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {            
             if (this.image.complete) {
+                if (this.image.width === 0 || this.image.height === 0)
+                    return reject(`Failed to load image: ${this.image.src}`);
                 return resolve();
             }
             this.image.onload = () => {
                 resolve();
             };
+            this.image.onerror = (event: Event | string) => {
+                reject(`Failed to load image: ${event.toString()}`);
+            };
+            
         });
     }
 

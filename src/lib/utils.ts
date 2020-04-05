@@ -1,8 +1,8 @@
 import * as error from "./error";
 import * as common from "./common";
 
+/** Alias for a DOM event handler. */
 export type DOMEventHandler = (evt: Event) => void;
-
 
 /**
  * Helper function that prepends a selector with a global prefix followed
@@ -43,115 +43,95 @@ export function removeClass(element: Element, elementClass: string): void {
  * @param element
  * @param attributeName
  */
-export function getNumberAttribute(
-    element: Element,
-    attributeName: string
-): number | null {
-    if (element == null)
-        throw new error.SliderError(
-            error.ErrorType.Error,
-            "Empty element in getNumberAttribute."
-        );
+export function getNumberAttribute(element: Element, attributeName: string): number | undefined {
+    if (element === null) throw new error.SliderError(error.ErrorType.Error, "Empty element in getNumberAttribute.");
 
     const attribute = element.getAttribute(attributeName);
-    if (attribute == null) return null;
+    if (attribute === null) return undefined;
 
     const result = Number.parseFloat(attribute);
     if (isNaN(result)) {
-        error.handleError(
-            error.ErrorType.Warning,
-            "Invalid attribute value: " + result
-        );
-        return null;
+        error.handleError(error.ErrorType.Warning, "Invalid attribute value: " + result);
+        return undefined;
     }
     return result;
 }
 
 /**
- * Same as [[getNumberAttribute]] except returns a string.
+ * Returns a string parsed from an element attribute. Logs a warning if the attribute is defined but empty.
  * @param element
  * @param attributeName
+ * @returns Attribute string or undefined if attribute isn't defined.
  */
-export function getStringAttribute(
-    element: Element,
-    attributeName: string
-): string | null {
-    if (element == null)
-        throw new error.SliderError(
-            error.ErrorType.Error,
-            "Empty element in getStringAttribute."
-        );
+export function getStringAttribute(element: Element, attributeName: string): string | undefined {
+    if (element === null) throw new error.SliderError(error.ErrorType.Error, "Empty element in getStringAttribute.");
 
     const attribute = element.getAttribute(attributeName);
-    if (attribute == null) return null;
+    if (attribute === null) return null;
     // However if the attribute is defined but empty then it's an error.
-    if (attribute == undefined || attribute.length == 0) {
-        error.handleError(
-            error.ErrorType.Warning,
-            "Undefined or empty attribute: " + attributeName
-        );
-        return null;
+    if (attribute === undefined || attribute.length === 0) {
+        error.handleError(error.ErrorType.Warning, "Undefined or empty attribute: " + attributeName);
+        return undefined;
     }
 
     return attribute;
 }
 
 /**
- * Parses and returns an attribute value that is either a string or a number.
+ * Parses and returns an attribute value that is a string, number, or boolean.
  * @param element Element to retrieve the attribute value from.
  * @param attributeName Name of attribute to grab.
  * @param defaultValue If the attributeValue is null then assign to defaultValue.
- * Note, the default can be undefined in certain circumstances (see the
- * `start-position` attribute).
  */
 export function assignNullableAttribute(
     element: Element,
     attributeName: string,
     defaultValue: string | number | boolean
 ): string | number | boolean {
-    if (element == null)
-        throw new error.SliderError(
-            error.ErrorType.Error,
-            "Empty element in assignNullableAttribute."
-        );
+    if (element === null)
+        throw new error.SliderError(error.ErrorType.Error, "Empty element in assignNullableAttribute.");
 
     if (typeof defaultValue === "string") {
         const returnVal = getStringAttribute(element, attributeName);
-        return returnVal == null ? defaultValue : returnVal;
+        return returnVal === undefined ? defaultValue : returnVal;
     } else if (typeof defaultValue === "number") {
         const returnVal = getNumberAttribute(element, attributeName);
-        return returnVal == null ? defaultValue : returnVal;
+        return returnVal === undefined ? defaultValue : returnVal;
     } else if (typeof defaultValue === "boolean") {
         const returnVal = getStringAttribute(element, attributeName);
-        return returnVal == null ? defaultValue : returnVal === "true";
+        return returnVal === undefined ? defaultValue : returnVal === "true";
     } else {
-        // If this happens something has gone horribly wrong.
-        throw new error.SliderError(
-            error.ErrorType.Error,
-            "Unexpected attribute type in assignNullableAttribute."
-        );
+        throw new error.SliderError(error.ErrorType.Error, "Unexpected attribute type in assignNullableAttribute.");
     }
 }
 
-export interface AssignAttributesResult {
-    value: string | number | boolean;
-}
-
+/**
+ * Generator that takes an array of parameters defining attributes to parse and yields
+ * the parsed values.
+ * @param element
+ * @param params
+ * @description Example params:
+ * ```typescript
+ * const parentOptions: common.OptionsArray = [
+    {
+        paramName: "transition-size",
+        defaultValue: 1
+    },
+    {
+        paramName: "dragable",
+        defaultValue: true
+    }
+    ]
+ * ```
+ */
 export function* assignNullableAttributes(
     element: Element,
     params: common.OptionType[]
 ): Iterator<string | number | boolean> {
-    //let results: AssignAttributesResult[] = [];
     for (let param of params) {
-        let val = assignNullableAttribute(
-            element,
-            param.paramName,
-            param.defaultValue
-        );
+        let val = assignNullableAttribute(element, param.paramName, param.defaultValue);
         yield val;
-        //results.push({ paramName: param.paramName, value: val });
     }
-    //return results;
 }
 
 /**
@@ -159,11 +139,7 @@ export function* assignNullableAttributes(
  * @param container Container Element to add the canvas to.
  * @param className Assign this class name to the canvas.
  */
-export function createAndInsertCanvasElement(
-    container: Element,
-    className: string
-): HTMLCanvasElement {
-
+export function createAndInsertCanvasElement(container: Element, className: string): HTMLCanvasElement {
     let canvasElement = document.createElement("canvas");
     canvasElement.width = container.clientWidth;
     canvasElement.height = container.clientHeight;
@@ -174,7 +150,7 @@ export function createAndInsertCanvasElement(
 }
 
 /**
- * Helper function to mix two objects so we can utilize multiple inheritance.
+ * Helper function to mix two objects so we can utilize a form of multiple inheritance.
  * @param derivedCtor Derived interface.
  * @param baseCtors Base interfaces to mixin with derivedCtor.
  */

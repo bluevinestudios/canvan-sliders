@@ -3,7 +3,7 @@ import * as utils from '../utils';
 import * as constants from '../constants';
 
 /** Top-level options for a single canvas slider component. */
-export class GlobalOptions extends Options {
+export class ComponentOptions extends Options {
 
     /**
      * Constructor
@@ -15,11 +15,6 @@ export class GlobalOptions extends Options {
         this.dragable = dragable;
     }
 
-    /**
-     * Parse element options into local member variables.  Defaults to constants.defaultDragable
-     * for invalid input or undefined input.
-     * @param element
-     */
     parse(element: Element) {
         let dragable: boolean = utils.assignNullableAttribute(element,
             constants.dragableParamName, this.dragable) as boolean;

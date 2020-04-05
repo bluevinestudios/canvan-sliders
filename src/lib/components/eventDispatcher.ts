@@ -1,3 +1,8 @@
+// eventDispatcher.ts
+/**
+ * This is the doc comment for file1.ts
+ * @packageDocumentation
+ */
 import * as eventTypes from './eventTypes';
 
 type EventHandlerItemArray = eventTypes.EventHandlerItem[];

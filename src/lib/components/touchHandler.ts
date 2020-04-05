@@ -2,26 +2,23 @@ import * as utils from "../utils";
 import { EventDispatcher } from "./eventDispatcher";
 import { EventType, EventParams, MouseEventParams } from "./eventTypes";
 
+/** 
+ *  Class names to add to our element dragging.  Note, a customizable prefix is added to these for uniqueness.
+ *  See [[SliderCreator]].
+*/
 const mouseDownClass = "mouse-down";
 const mouseGrabClass = "mouse-grab";
 
 /**
- * Helper data structure to manage mouse events bound to our touch handler.
- **/
-interface MouseEventItem {
-    name: string;
-    event: utils.DOMEventHandler;
-}
-
-/**
- *  Class to manage touch events.
+ *  Class to manage touch events, currently only supporting desktop mouse events.
  */
 export class TouchHandler {
     /**
      * Constructor
      * @param element High-level element to watch for mouse events.  The classes defined in the
-     * 'mouseDownClass' and 'mouseGrabClass' constants are also added to this element.
+     * [mouseDownClass] and [mouseGrabClass] constants are added to this element dynamically.
      * @param eventDispatcher: Dispatcher for touch/mouse events.
+     * @param selectorPrefix: Prefix to prepend to the mouse down/grab classes.
      */
     constructor(
         element: Element,
@@ -122,3 +119,12 @@ export class TouchHandler {
 
     private mouseEventItems: MouseEventItem[];
 }
+
+/**
+ * Helper data structure to manage mouse events bound to our touch handler.
+ **/
+interface MouseEventItem {
+    name: string;
+    event: utils.DOMEventHandler;
+}
+

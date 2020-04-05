@@ -1,13 +1,11 @@
-import { CanvanSliders as ps } from "index";
+import { SliderCreator } from "index";
 
-let sliderCreator: ps.SliderCreator;
-
-const attributeSelectorPrefix = 'canvan'
+let sliderCreator: SliderCreator;
+const attributeSelectorPrefix = "canvan";
 
 function waitForDomContentLoaded() {
-    return new Promise<HTMLDocument>((resolve) => {
-        window.addEventListener('DOMContentLoaded', (event: Event) => {
-            console.log('DOM fully loaded and parsed');
+    return new Promise<HTMLDocument>(resolve => {
+        window.addEventListener("DOMContentLoaded", (event: Event) => {
             let target: EventTarget = event.target as EventTarget;
             let document: HTMLDocument = target as HTMLDocument;
             resolve(document);
@@ -15,14 +13,21 @@ function waitForDomContentLoaded() {
     });
 }
 
-waitForDomContentLoaded().then((document: HTMLDocument) => {
-    sliderCreator = new ps.SliderCreator(document, attributeSelectorPrefix);
-    let returnPromise = sliderCreator.scanAndCreateSliders();
-    returnPromise.then((result) => {
-        sliderCreator.animateAll();
-    }).catch((error: Error) => {
-        console.log(error.message);
+/**
+ *  Wait for the DOM content to be loaded before we initialize our sliders.  We rely
+ *  on exceptions to handle lower-level errors. 
+ */
+waitForDomContentLoaded()
+    .then((document: HTMLDocument) => {
+        sliderCreator = new SliderCreator(document, attributeSelectorPrefix);
+        sliderCreator.scanAndCreateSliders()
+            .then(() => {
+                sliderCreator.animate();
+            })
+            .catch((error: Error) => {
+                console.error(error);
+            });
+    })
+    .catch((error: Error) => {
+        console.error(error);
     });
-}).catch((error: Error) => {
-    console.log(error.message);
-});
