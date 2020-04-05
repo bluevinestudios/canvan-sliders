@@ -1,17 +1,14 @@
 import { EventDispatcher } from '../eventDispatcher';
-import { EventType, EventParams, ResizeParams } from '../eventTypes';
+import { EventType, ResizeParams } from '../eventTypes';
 import { Animatable } from './animatable';
 
 /**
- * Class to administer initialization and animation of IAnimationElement(s).
+ * Class to administer initialization and animation of animatable elements.
  * Multiple canvas elements will be animated using the high-performance
  * 'window.requestAnimationFrame' function.
  */
 export class Animator {
-    constructor(container: Element,
-        animationElements: Animatable[],
-        eventDispatcher: EventDispatcher) {
-
+    constructor(container: Element, animationElements: Animatable[], eventDispatcher: EventDispatcher) {
         this.eventDispatcher = eventDispatcher;
         this.container = container;
         this.animationElements = animationElements;
@@ -24,8 +21,8 @@ export class Animator {
     }
 
     /**
-     * Stub callback function for our window frame paint event so that
-     * the core code can be reused.  See frameEvent below.
+     * Stub callback function for our window frame paint event so that the core code can be reused.  
+     * See frameEvent below.
      * @param timestamp
      */
     private animateFrameEvent(timestamp: number) {
@@ -33,10 +30,9 @@ export class Animator {
     }
 
     /**
-     * This is the core animation function attached to our document window
-     * 'requestAnimationFrame' callback event.
+     * This is the core animation function attached to our document window 'requestAnimationFrame' callback event.
      * @param timestamp Not used at the moment.
-     * @param requestNewFrame True if we should recursively ask for a new 
+     * @param requestNewFrame True if we should recursively ask for a new
      * animation callback.
      */
     private frameEvent(timestamp: number, requestNewFrame: boolean) {
@@ -49,31 +45,26 @@ export class Animator {
 
         // Currently this is the best way to detect a resize events until
         // the DOM supports an element-specific size change event.
-        if (this.container.clientWidth != this.lastWidth ||
-            this.container.clientHeight != this.lastHeight) {
-
+        if (this.container.clientWidth != this.lastWidth || this.container.clientHeight != this.lastHeight) {
             this.eventDispatcher.dispatch(
                 EventType.Resize,
-                ResizeParams(
-                    this.container.clientWidth,
-                    this.container.clientHeight)
+                ResizeParams(this.container.clientWidth, this.container.clientHeight)
             );
 
             this.initializeAnimation();
         }
 
-        if (this.active && requestNewFrame)
-            window.requestAnimationFrame(this.animateFrameEvent.bind(this));        
+        if (this.active && requestNewFrame) window.requestAnimationFrame(this.animateFrameEvent.bind(this));
     }
 
     private initializeAnimation() {
         this.lastWidth = this.container.clientWidth;
         this.lastHeight = this.container.clientHeight;
 
+        // Sending a resize event tells our children elements what size they are after initialization.
         this.eventDispatcher.dispatch(
             EventType.Resize,
-            ResizeParams(this.container.clientWidth,
-                this.container.clientHeight)
+            ResizeParams(this.container.clientWidth, this.container.clientHeight)
         );
     }
 
@@ -88,7 +79,7 @@ export class Animator {
     }
 
     protected eventDispatcher: EventDispatcher;
-    protected container: Element;    
+    protected container: Element;
     protected animationElements: Animatable[];
     protected active: boolean;
 

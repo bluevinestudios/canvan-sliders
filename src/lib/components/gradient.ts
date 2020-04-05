@@ -1,4 +1,4 @@
-import { Range } from "./range";
+import { Range } from './range';
 
 /**
  *  Helper data structure to keep track of where we should place our gradient stops.
@@ -10,10 +10,12 @@ export interface GradientRange {
     opacityRange: Range;
 }
 
-export function MakeGradientRange(
-    positionRange: Range,
-    opacityRange: Range
-): GradientRange {
+/**
+ * Construct a GradientRange object.
+ * @param positionRange
+ * @param opacityRange
+ */
+export function MakeGradientRange(positionRange: Range, opacityRange: Range): GradientRange {
     return { positionRange: positionRange, opacityRange: opacityRange };
 }
 
@@ -27,10 +29,7 @@ export abstract class Gradient {
      * @param gradientTransitionWidth Width between 0-1 specifying how large the transition
      * should be between fully transparent to fully opaque segments.
      */
-    constructor(
-        context: CanvasRenderingContext2D,
-        gradientTransitionWidth: number
-    ) {
+    constructor(context: CanvasRenderingContext2D, gradientTransitionWidth: number) {
         this.context = context;
         this.gradientTransitionWidth = gradientTransitionWidth;
     }

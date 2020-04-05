@@ -3,7 +3,7 @@ import { Coordinate } from '../../../common';
 export enum AnimationState {
     Inactive,
     Active,
-    Dragging,
+    Dragging
 }
 
 export class AxisSliderState {
@@ -29,19 +29,21 @@ export class AxisSliderState {
         this.animationState$ = animationState;
     }
 
-    get relativePosition(): Coordinate { return this.relativePosition$; }
+    get relativePosition(): Coordinate {
+        return this.relativePosition$;
+    }
     set relativePosition(position: Coordinate) {
         this.relativePosition$ = position;
     }
 
-    get absolutePosition(): Coordinate { return this.absolutePosition$; }
+    get absolutePosition(): Coordinate {
+        return this.absolutePosition$;
+    }
     set absolutePosition(absolutePosition: Coordinate) {
         this.absolutePosition$ = absolutePosition;
     }
-    
+
     private relativePosition$: Coordinate;
     private absolutePosition$: Coordinate;
     private animationState$: AnimationState;
 }
-
-

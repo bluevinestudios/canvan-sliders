@@ -1,13 +1,13 @@
-import * as utils from "../utils";
-import { EventDispatcher } from "./eventDispatcher";
-import { EventType, EventParams, MouseEventParams } from "./eventTypes";
+import * as utils from '../utils';
+import { EventDispatcher } from './eventDispatcher';
+import { EventType, MouseEventParams } from './eventTypes';
 
-/** 
+/**
  *  Class names to add to our element dragging.  Note, a customizable prefix is added to these for uniqueness.
  *  See [[SliderCreator]].
-*/
-const mouseDownClass = "mouse-down";
-const mouseGrabClass = "mouse-grab";
+ */
+const mouseDownClass = 'mouse-down';
+const mouseGrabClass = 'mouse-grab';
 
 /**
  *  Class to manage touch events, currently only supporting desktop mouse events.
@@ -20,20 +20,16 @@ export class TouchHandler {
      * @param eventDispatcher: Dispatcher for touch/mouse events.
      * @param selectorPrefix: Prefix to prepend to the mouse down/grab classes.
      */
-    constructor(
-        element: Element,
-        eventDispatcher: EventDispatcher,
-        public selectorPrefix: string
-    ) {
+    constructor(element: Element, eventDispatcher: EventDispatcher, public selectorPrefix: string) {
         this.container = element;
         this.eventDispatcher = eventDispatcher;
         this.dragging = false;
 
         this.mouseEventItems = [
-            { name: "mousedown", event: this.mouseDown },
-            { name: "mouseup", event: this.mouseUp },
-            { name: "mousemove", event: this.mouseMove },
-            { name: "mouseleave", event: this.mouseLeave }
+            { name: 'mousedown', event: this.mouseDown },
+            { name: 'mouseup', event: this.mouseUp },
+            { name: 'mousemove', event: this.mouseMove },
+            { name: 'mouseleave', event: this.mouseLeave }
         ];
         for (let mouseEvent of this.mouseEventItems) {
             mouseEvent.event = mouseEvent.event.bind(this);
@@ -63,10 +59,7 @@ export class TouchHandler {
     }
 
     private mouseDown(event: Event): void {
-        utils.addClass(
-            this.container,
-            utils.addSelectorPrefix(this.selectorPrefix, mouseDownClass)
-        );
+        utils.addClass(this.container, utils.addSelectorPrefix(this.selectorPrefix, mouseDownClass));
         this.dragging = true;
         this.dispatchMouseEvent(event, EventType.DragStart);
     }
@@ -78,10 +71,7 @@ export class TouchHandler {
     }
 
     private mouseMove(event: Event): void {
-        utils.addClass(
-            this.container,
-            utils.addSelectorPrefix(this.selectorPrefix, mouseGrabClass)
-        );
+        utils.addClass(this.container, utils.addSelectorPrefix(this.selectorPrefix, mouseGrabClass));
         this.dispatchMouseEvent(event, EventType.MouseMove);
     }
 
@@ -103,13 +93,7 @@ export class TouchHandler {
 
         this.eventDispatcher.dispatch(
             eventType,
-            MouseEventParams(
-                mouseEvent.x,
-                mouseEvent.y,
-                mouseEvent.movementX,
-                mouseEvent.movementY,
-                this.dragging
-            )
+            MouseEventParams(mouseEvent.x, mouseEvent.y, mouseEvent.movementX, mouseEvent.movementY, this.dragging)
         );
     }
 
@@ -127,4 +111,3 @@ interface MouseEventItem {
     name: string;
     event: utils.DOMEventHandler;
 }
-

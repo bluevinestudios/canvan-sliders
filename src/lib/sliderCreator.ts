@@ -3,10 +3,10 @@
  * Module for scanning HTML for sliders and initializing and loading images.
  * @packageDocumentation
  */
-import * as constants from "./constants";
-import * as error from "./error";
-import * as utils from "./utils";
-import { ComponentBuilder } from "./components/componentBuilder";
+import * as constants from './constants';
+import * as error from './error';
+import * as utils from './utils';
+import { ComponentBuilder } from './components/componentBuilder';
 
 /**
  *  SliderCreator parses the current document and creates and initializes all of the sliders on the page.
@@ -18,13 +18,13 @@ export class SliderCreator {
      * @param selectorPrefix Allows the HTML classes searched to use a different selector 'namespace' in case there
      * are somehow class collisions.
      */
-    constructor(public document: HTMLDocument, public selectorPrefix = "canvan") {
+    constructor(public document: HTMLDocument, public selectorPrefix = 'canvan') {
         this.sliders = null;
     }
 
-    /** 
+    /**
      * Asynchronously query the page for selectors and initialize.  Returns a promise that when
-     * completed all of the sliders have been created, images loaded, and can be animated. 
+     * completed all of the sliders have been created, images loaded, and can be animated.
      */
     async scanAndCreateSliders(): Promise<void[]> {
         let elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
@@ -37,7 +37,7 @@ export class SliderCreator {
         for (let index = 0; index < elements.length; index++) {
             let element = elements[index];
             let elementTag = element.tagName.toLowerCase();
-            if (elementTag === "div") {
+            if (elementTag === 'div') {
                 this.sliders[index] = new ComponentBuilder(element, this.selectorPrefix, index);
             } else {
                 error.handleError(
@@ -66,5 +66,5 @@ export class SliderCreator {
         }
     }
 
-    private sliders: ComponentBuilder[] | null;    
+    private sliders: ComponentBuilder[] | null;
 }

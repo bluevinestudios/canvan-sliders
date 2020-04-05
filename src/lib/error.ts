@@ -22,14 +22,10 @@ export class SliderError extends Error {
  */
 export function handleError(errorType: ErrorType, message: string) {
     let errorMessage = createErrorMessage(errorType, message);
-    if (errorType == ErrorType.Error)
-        console.error(errorMessage);
-    else
-        console.warn(errorMessage);
+    if (errorType == ErrorType.Error) console.error(errorMessage);
+    else console.warn(errorMessage);
 }
 
 function createErrorMessage(errorType: ErrorType, message: string) {
-    return errorType == ErrorType.Error
-        ? `Canvan Error!: ${message}`
-        : `Canvan Warning: ${message}`;
+    return errorType == ErrorType.Error ? `Canvan Error!: ${message}` : `Canvan Warning: ${message}`;
 }

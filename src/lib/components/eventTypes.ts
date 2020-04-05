@@ -1,4 +1,3 @@
-
 /** Currently supported events. */
 export enum EventType {
     Init,
@@ -12,7 +11,7 @@ export enum EventType {
     Play
 }
 
-export interface EventParams { }
+export interface EventParams {}
 
 export interface MouseEventParams extends EventParams {
     x: number;
@@ -27,17 +26,15 @@ export interface ResizeParams extends EventParams {
     height: number;
 }
 
-export function MouseEventParams(x: number, y: number,
-    movementX: number, movementY: number,
-    mouseDown: boolean) {
-
+export function MouseEventParams(x: number, y: number, movementX: number, movementY: number, mouseDown: boolean) {
     return {
-        x: x, y: y,
-        movementX: movementX, movementY: movementY,
+        x: x,
+        y: y,
+        movementX: movementX,
+        movementY: movementY,
         mouseDown: mouseDown
     };
 }
-
 
 export function ResizeParams(width: number, height: number): ResizeParams {
     return { width: width, height: height };
@@ -55,4 +52,4 @@ export function EventHandlerItem(eventID: number, eventType: EventType, eventHan
     return { eventID: eventID, eventType: eventType, eventHandler: eventHandler };
 }
 
-type EventHandlerItemArray = EventHandlerItem[];
+export type EventHandlerItemArray = EventHandlerItem[];

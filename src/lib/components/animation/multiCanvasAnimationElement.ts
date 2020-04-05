@@ -1,9 +1,7 @@
 import * as utils from '../../utils';
-import { Animatable } from "./animatable";
+import { Animatable } from './animatable';
 import { Dragable } from './dragable';
-import { CanvasAnimationElement } from "./canvasAnimationElement";
-import { EventDispatcher } from "../eventDispatcher";
-import { EventType, EventParams } from "../eventTypes";
+import { CanvasAnimationElement } from './canvasAnimationElement';
 
 export abstract class MultiCanvasAnimationElement implements Animatable {
     constructor(public selectorPrefix: string) {
@@ -13,17 +11,17 @@ export abstract class MultiCanvasAnimationElement implements Animatable {
 
     async init(): Promise<void> {
         this.parseAndBuildChildren();
-        const loadAll: Promise<void>[] = this.canvasLayers.map(
-            async (layer: CanvasAnimationElement, index: number) => {
-                return layer.init();
-            }
-        );
+        const loadAll: Promise<void>[] = this.canvasLayers.map(async (layer: CanvasAnimationElement, index: number) => {
+            return layer.init();
+        });
         return new Promise<void>(async (resolve, reject) => {
-            Promise.all(loadAll).then(() => {
-                resolve();
-            }).catch((error: Error) => {
-                reject(error);
-            });
+            Promise.all(loadAll)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error: Error) => {
+                    reject(error);
+                });
         });
     }
 
@@ -46,8 +44,6 @@ export abstract class MultiCanvasDragableAnimationElement {
     }
 }
 
-export interface MultiCanvasDragableAnimationElement
-    extends MultiCanvasAnimationElement, Dragable { }
+export interface MultiCanvasDragableAnimationElement extends MultiCanvasAnimationElement, Dragable {}
 
-utils.applyMixins(MultiCanvasDragableAnimationElement,
-    [MultiCanvasAnimationElement, Dragable]);
+utils.applyMixins(MultiCanvasDragableAnimationElement, [MultiCanvasAnimationElement, Dragable]);

@@ -1,8 +1,7 @@
 import { SliderError, ErrorType } from '../error';
 
-
 /**
- * A simple real-valued min/max range that can interpolate a 
+ * A simple real-valued min/max range that can interpolate a
  * value from one range to another.
  */
 export class Range {
@@ -29,7 +28,6 @@ export class Range {
         return this.max$ - this.min$;
     }
 
-
     /**
      * Maps a number from this range into a destination range, interpolating linearly.
      * @param sourceValue
@@ -37,8 +35,7 @@ export class Range {
      * @description Throws an error if size of range is zero.
      */
     mapValueToRange(sourceValue: number, destinationRange: Range): number {
-        if (this.width$ == 0)
-            throw new SliderError(ErrorType.Error, `Invalid size of range ${this.min} - ${this.max}`);
+        if (this.width$ == 0) throw new SliderError(ErrorType.Error, `Invalid size of range ${this.min} - ${this.max}`);
 
         let normalizedValue = (sourceValue - this.min$) / this.width$;
         return destinationRange.min$ + normalizedValue * destinationRange.width$;

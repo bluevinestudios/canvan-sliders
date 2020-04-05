@@ -1,36 +1,36 @@
-import * as utils from "../utils";
-import * as constants from "../constants";
-import { TouchHandler } from "./touchHandler";
-import { EventDispatcher } from "./eventDispatcher";
-import { Animator } from "./animation/animator";
-import { ComponentOptions } from "./componentOptions";
-import { MultiCanvasAnimationElement } from "./animation/multiCanvasAnimationElement";
-import { MultiCanvasAxisSlider } from "./animation/sliders/multiCanvasAxisSlider";
-import { SliderType, GradientType } from "./animation/sliders/axisSliderTypes";
+import * as utils from '../utils';
+import * as constants from '../constants';
+import { TouchHandler } from './touchHandler';
+import { EventDispatcher } from './eventDispatcher';
+import { Animator } from './animation/animator';
+import { ComponentOptions } from './componentOptions';
+import { MultiCanvasAnimationElement } from './animation/multiCanvasAnimationElement';
+import { MultiCanvasAxisSlider } from './animation/sliders/multiCanvasAxisSlider';
+import { SliderType, GradientType } from './animation/sliders/axisSliderTypes';
 
 /**
  * ComponentBuilder parses and initializes a single canvas component on the page (out of potentially many).
  * Example component HTML with two different types of layered canvas animation:
  * ```html
- * <div class="canvan-animator">
- *           <div class="canvan-linear-slider" transition-size="1" position-increment="0.1" dragable="true">
+ * <div class='canvan-animator'>
+ *           <div class='canvan-linear-slider' transition-size='1' position-increment='0.1' dragable='true'>
  *               <picture>
- *                   <source srcset="/images/source_example2.webp" type="image/webp" />
- *                   <img src="/images/source_example2.jpg" type="image/jpeg"  static="true"/>
+ *                   <source srcset='/images/source_example2.webp' type='image/webp' />
+ *                   <img src='/images/source_example2.jpg' type='image/jpeg'  static='true'/>
  *               </picture>
  *               <picture>
- *                   <source srcset="/images/mapped_example2.webp" type="image/webp" />
- *                   <img src="/images/mapped_example2.jpg" type="image/jpeg" window-width="50" start-position-x="50"/>
+ *                   <source srcset='/images/mapped_example2.webp' type='image/webp' />
+ *                   <img src='/images/mapped_example2.jpg' type='image/jpeg' window-width='50' start-position-x='50'/>
  *               </picture>
  *           </div>
- *           <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
+ *           <div class='canvan-radial-slider' transition-size='1' position-increment='0.5' dragable='true'>
  *              <picture>
- *                  <source srcset="/images/source_example2.webp" type="image/webp" />
- *                  <img src="/images/source_example2.jpg" type="image/jpeg" radius="10" start-position-x="0" start-position-y="40" />
+ *                  <source srcset='/images/source_example2.webp' type='image/webp' />
+ *                  <img src='/images/source_example2.jpg' type='image/jpeg' radius='10' start-position-x='0' start-position-y='40' />
  *              </picture>
  *              <picture>
- *                  <source srcset="/images/mapped_example2.webp" type="image/webp" />
- *                  <img src="/images/mapped_example2.jpg" type="image/jpeg" radius="10" start-position-x="15" start-position-y="80" />
+ *                  <source srcset='/images/mapped_example2.webp' type='image/webp' />
+ *                  <img src='/images/mapped_example2.jpg' type='image/jpeg' radius='10' start-position-x='15' start-position-y='80' />
  *              </picture>
  *          </div>
  *      </div>
@@ -66,7 +66,7 @@ export class ComponentBuilder {
      * Asynchronously parse our children elements.
      */
     async parseAndBuildElements(): Promise<void> {
-        let children = this.container.getElementsByTagName("div");
+        let children = this.container.getElementsByTagName('div');
         for (let index = 0; index < children.length; index++) {
             let classes = children[index].classList;
             if (classes != null) {
@@ -95,11 +95,13 @@ export class ComponentBuilder {
             }
         );
         return new Promise<void>(async (resolve, reject) => {
-            Promise.all(loadAll).then(() => {
-                resolve();
-            }).catch((error: Error) => {
-                reject(error);
-            });
+            Promise.all(loadAll)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error: Error) => {
+                    reject(error);
+                });
         });
     }
 

@@ -1,4 +1,4 @@
-/** 
+/**
  *  General purpose interface for a class that can be animated.
  */
 export abstract class Animatable {
@@ -8,4 +8,3 @@ export abstract class Animatable {
     abstract active: boolean;
     abstract parseOptions();
 }
-

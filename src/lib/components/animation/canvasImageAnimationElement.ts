@@ -1,16 +1,19 @@
 import { SliderImage } from '../sliderImage';
 import { EventDispatcher } from '../eventDispatcher';
 import { CanvasAnimationElement } from './canvasAnimationElement';
-import { EventType, ResizeParams } from '../eventTypes';
+import { Coordinate } from '../../common';
 
 /**
- * Aside from serving as a parent class to dynamic animations, this 
- * class serves as a static
- * image drawn on the canvas.
+ * Aside from serving as a parent class to dynamic image-based animations, this
+ * class serves as a static image drawn on the canvas.
  */
 export class CanvasImageAnimationElement extends CanvasAnimationElement {
-    constructor(optionsElement: Element, sliderImage: SliderImage, 
-        canvasElement: HTMLCanvasElement, eventDispatcher: EventDispatcher) {
+    constructor(
+        optionsElement: Element,
+        sliderImage: SliderImage,
+        canvasElement: HTMLCanvasElement,
+        eventDispatcher: EventDispatcher
+    ) {
         super(optionsElement, canvasElement, eventDispatcher);
 
         this.sliderImage = sliderImage;
@@ -31,12 +34,12 @@ export class CanvasImageAnimationElement extends CanvasAnimationElement {
     resize() {
         this.canvasElement.width = window.devicePixelRatio * this.canvasElement.clientWidth;
         this.canvasElement.height = window.devicePixelRatio * this.canvasElement.clientHeight;
-        this.context = this.canvasElement.getContext("2d", { alpha: true }) as CanvasRenderingContext2D;
+        this.context = this.canvasElement.getContext('2d', { alpha: true }) as CanvasRenderingContext2D;
         this.context.scale(window.devicePixelRatio, window.devicePixelRatio);
     }
 
     parseOptions() {}
-    updatePosition(position: [number, number], movement: [number, number]) {}
-    
-    protected sliderImage: SliderImage
+    updatePosition(position: Coordinate, movement: Coordinate) {}
+
+    protected sliderImage: SliderImage;
 }

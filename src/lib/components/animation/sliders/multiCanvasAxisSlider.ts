@@ -1,51 +1,52 @@
-import * as error from "../../../error";
-import * as utils from "../../../utils";
-import * as constants from "../../../constants";
-import * as common from "../../../common";
-import { AxisSliderState, AnimationState } from "./axisSliderState";
-import { SliderImage } from "../../sliderImage";
-import { CanvasImageAnimationElement } from "../canvasImageAnimationElement";
-import { MultiCanvasAnimationElement } from "../multiCanvasAnimationElement";
-import { MultiCanvasSlider } from "./multiCanvasSlider";
-import { Animatable } from "../animatable";
-import { SingleCanvasAxisSlider } from "./singleCanvasAxisSlider";
-import { GradientLinear } from "../../gradientLinear";
-import { EventDispatcher } from "../../eventDispatcher";
-import { EventType, MouseEventParams, ResizeParams } from "../../eventTypes";
-import { CanvasAnimationElement } from "../canvasAnimationElement";
+import * as error from '../../../error';
+import * as utils from '../../../utils';
+import * as constants from '../../../constants';
+import * as common from '../../../common';
+import { AxisSliderState, AnimationState } from './axisSliderState';
+import { SliderImage } from '../../sliderImage';
+import { CanvasImageAnimationElement } from '../canvasImageAnimationElement';
+import { MultiCanvasSlider } from './multiCanvasSlider';
+import { SingleCanvasAxisSlider } from './singleCanvasAxisSlider';
+import { EventDispatcher } from '../../eventDispatcher';
+import { MouseEventParams} from '../../eventTypes';
+import { CanvasAnimationElement } from '../canvasAnimationElement';
 import { GradientType, SliderType } from './axisSliderTypes';
-
+import { Coordinate } from '../../../common';
 
 const parentOptions: common.OptionsArray = [
     {
-        paramName: "transition-size",
+        paramName: 'transition-size',
         defaultValue: 1
     },
     {
-        paramName: "dragable",
+        paramName: 'dragable',
         defaultValue: true
     },
     {
-        paramName: "position-increment",
+        paramName: 'position-increment',
         defaultValue: 0.5
     }
 ];
 
 const childOptions: common.OptionsArray = [
     {
-        paramName: "start-position-x",
+        paramName: 'start-position-x',
         defaultValue: -1
     },
     {
-        paramName: "start-position-y",
+        paramName: 'start-position-y',
         defaultValue: -1
     },
     {
-        paramName: "static",
+        paramName: 'static',
         defaultValue: false
     }
 ];
 
+/**
+ * An 'axis' slider is an canvas animation that only travels in the X,Y directions, as opposed to diagonal, etc.
+ * This could eventually be extended to run along any vector direction.
+ */
 export class MultiCanvasAxisSlider extends MultiCanvasSlider {
     constructor(
         container: Element,
@@ -63,23 +64,19 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
     }
 
     parseOptions() {
-        let results = utils.assignNullableAttributes(
-            this.container,
-            parentOptions
-        );
+        let results = utils.assignNullableAttributes(this.container, parentOptions);
         this.transitionSize = results.next().value / 100;
         this.dragable = results.next().value;
         this.positionIncrement = results.next().value / 100;
     }
 
     incrementPosition() {
-        if (this.sliderType == SliderType.Horizontal)
-            this.sliderState.relativePosition[0] += this.positionIncrement;
-        else this.sliderState.relativePosition[1] += this.positionIncrement;        
+        if (this.sliderType == SliderType.Horizontal) this.sliderState.relativePosition[0] += this.positionIncrement;
+        else this.sliderState.relativePosition[1] += this.positionIncrement;
         this.checkPositionBoundaries(this.sliderState.relativePosition);
     }
 
-    checkPositionBoundaries(position: [number, number]) {
+    checkPositionBoundaries(position: Coordinate) {
         let bounds = [0, 1];
         if (this.sliderType == SliderType.Horizontal) {
             if (position[0] < bounds[0]) position[0] = bounds[1];
@@ -98,17 +95,13 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
     }
 
     parseAndBuildChildren(): void {
-        let childrenImages = this.container.getElementsByTagName("img");
+        let childrenImages = this.container.getElementsByTagName('img');
 
         // Keep track of where the next slider center position will be based
         // on the previous visible window width.
         let nextPosition = 0;
         let startPosition = 0;
-        for (
-            let imageIndex = 0;
-            imageIndex < childrenImages.length;
-            imageIndex++
-        ) {
+        for (let imageIndex = 0; imageIndex < childrenImages.length; imageIndex++) {
             startPosition = nextPosition;
 
             // Create an image element and parse attribute options.
@@ -139,12 +132,7 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
 
             let sliderCanvas: CanvasAnimationElement = null;
             if (this.static$) {
-                sliderCanvas = new CanvasImageAnimationElement(
-                    image,
-                    sliderImage,
-                    canvasElement,
-                    this.eventDispatcher
-                );
+                sliderCanvas = new CanvasImageAnimationElement(image, sliderImage, canvasElement, this.eventDispatcher);
             } else {
                 let slider = new SingleCanvasAxisSlider(
                     this.sliderType,
@@ -159,9 +147,7 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
                     this.transitionSize
                 );
                 slider.parseOptions();
-                if (slider.visibleWindowWidth > 0)
-                    nextPosition =
-                        thisStartPositionX + slider.visibleWindowWidth;
+                if (slider.visibleWindowWidth > 0) nextPosition = thisStartPositionX + slider.visibleWindowWidth;
 
                 sliderCanvas = slider;
             }
@@ -188,17 +174,10 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
         this.updatePositionsHelper(params, false);
     }
 
-    private updatePositionsHelper(
-        params: MouseEventParams,
-        forceUpdate: boolean = false
-    ) {
+    private updatePositionsHelper(params: MouseEventParams, forceUpdate: boolean = false) {
         let relativeMovement = [0, 0];
-        //if (this.sliderType == SliderType.Horizontal)
-        relativeMovement[0] =
-            params.x - this.sliderState.absolutePosition[0];
-        //else
-        relativeMovement[1] =
-            params.y - this.sliderState.absolutePosition[1];
+        relativeMovement[0] = params.x - this.sliderState.absolutePosition[0];
+        relativeMovement[1] = params.y - this.sliderState.absolutePosition[1];
 
         if (params.mouseDown && (relativeMovement[0] != 0 || relativeMovement[1] != 0 || forceUpdate)) {
             // We need the container height.  Unfortunately our container (a div)
@@ -207,29 +186,18 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
                 let width = this.canvasLayers[0].width;
                 let height = this.canvasLayers[1].height;
 
-                this.sliderState.absolutePosition = [
-                    params.x,
-                    params.y
-                ];
+                this.sliderState.absolutePosition = [params.x, params.y];
 
                 this.sliderState.relativePosition = [0, 0];
-                //if (this.sliderType == SliderType.Horizontal) {
-                    this.sliderState.relativePosition[0] +=
-                        relativeMovement[0] / width;
-                //} else {
-                    this.sliderState.relativePosition[1] +=
-                        relativeMovement[1] / height;
-                //}
+                this.sliderState.relativePosition[0] += relativeMovement[0] / width;
+                this.sliderState.relativePosition[1] += relativeMovement[1] / height;
 
                 for (let sliderCanvas of this.canvasLayers) {
-                    sliderCanvas.updatePosition(
-                        this.sliderState.absolutePosition,
-                        this.sliderState.relativePosition
-                    );
+                    sliderCanvas.updatePosition(this.sliderState.absolutePosition, this.sliderState.relativePosition);
                 }
                 this.draw();
-            } 
-        } 
+            }
+        }
     }
 
     get static() {
@@ -238,7 +206,7 @@ export class MultiCanvasAxisSlider extends MultiCanvasSlider {
 
     transitionSize: number;
     positionIncrement: number;
-    protected position: [number, number];
+    protected position: Coordinate;
     protected sliderState: AxisSliderState;
     private lastStartPosition: number;
     private sliderType: SliderType;

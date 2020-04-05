@@ -1,34 +1,31 @@
 // eventDispatcher.ts
 /**
- * This is the doc comment for file1.ts
+ * Event dispatcher.
  * @packageDocumentation
  */
-import * as eventTypes from './eventTypes';
-
-type EventHandlerItemArray = eventTypes.EventHandlerItem[];
+import { EventType, EventHandler, EventHandlerItem, EventParams, EventHandlerItemArray } from './eventTypes';
 
 /**
  * Class to handle and dispatch internal events (not DOM events).  These are global events
  * that any lower-level components can subscribe to.
  */
-export class EventDispatcher {   
+export class EventDispatcher {
     constructor() {
-        this.events = new Map<eventTypes.EventType, EventHandlerItemArray>();
+        this.events = new Map<EventType, EventHandlerItemArray>();
         this.nextEventID = 0;
     }
 
     /**
-    * Subscribe to a given event type
-    * @param eventType Type of event.
-    * @param eventHandler Event handler.
-    * @returns Unique ID for the subscription that is supplied to [[unsubscribe]].
-    */
-    subscribe(eventType: eventTypes.EventType, eventHandler: eventTypes.EventHandler): number {
+     * Subscribe to a given event type
+     * @param eventType Type of event.
+     * @param eventHandler Event handler.
+     * @returns Unique ID for the subscription that is supplied to [[unsubscribe]].
+     */
+    subscribe(eventType: EventType, eventHandler: EventHandler): number {
         let newEventID = this.nextEventID;
         let eventArray = this.events.get(eventType);
-        let newHandlerItem = eventTypes.EventHandlerItem(newEventID, eventType, eventHandler);
-        if (eventArray == null)
-            eventArray = new Array(1);
+        let newHandlerItem = EventHandlerItem(newEventID, eventType, eventHandler);
+        if (eventArray == null) eventArray = new Array(1);
         eventArray[newEventID] = newHandlerItem;
         this.events.set(eventType, eventArray);
 
@@ -40,7 +37,7 @@ export class EventDispatcher {
      * Unsubscribe from an event stream.
      * @param eventID Unique subscription ID returned from [[subscribe]].
      */
-    unsubscribe(eventType: eventTypes.EventType, eventID: number) {
+    unsubscribe(eventType: EventType, eventID: number) {
         let eventArray = this.events.get(eventType);
         if (eventArray != undefined) {
             let index = 0;
@@ -59,16 +56,15 @@ export class EventDispatcher {
      * @param eventType Type of event to publish.
      * @param eventParams Event parameters.
      */
-    dispatch(eventType: eventTypes.EventType, eventParams: eventTypes.EventParams) {
+    dispatch(eventType: EventType, eventParams: EventParams) {
         let eventArray = this.events.get(eventType);
         if (eventArray != null) {
-            eventArray.forEach((handler) => {
+            eventArray.forEach(handler => {
                 handler.eventHandler(eventParams);
             });
         }
-    }    
+    }
 
-    private events: Map<eventTypes.EventType, EventHandlerItemArray>;
+    private events: Map<EventType, EventHandlerItemArray>;
     private nextEventID: number;
 }
-

@@ -13,10 +13,9 @@ export type OptionValueType = string | number | boolean;
 
 /** Generic attribute option type found in HTML. */
 export type OptionType = {
-    paramName: string,
-    defaultValue: OptionValueType
-}
+    paramName: string;
+    defaultValue: OptionValueType;
+};
 
 /** Array of option definitions. */
 export type OptionsArray = OptionType[];
-

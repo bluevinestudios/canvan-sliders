@@ -1,5 +1,5 @@
-import * as error from "./error";
-import * as common from "./common";
+import * as error from './error';
+import * as common from './common';
 
 /** Alias for a DOM event handler. */
 export type DOMEventHandler = (evt: Event) => void;
@@ -44,14 +44,14 @@ export function removeClass(element: Element, elementClass: string): void {
  * @param attributeName
  */
 export function getNumberAttribute(element: Element, attributeName: string): number | undefined {
-    if (element === null) throw new error.SliderError(error.ErrorType.Error, "Empty element in getNumberAttribute.");
+    if (element === null) throw new error.SliderError(error.ErrorType.Error, 'Empty element in getNumberAttribute.');
 
     const attribute = element.getAttribute(attributeName);
     if (attribute === null) return undefined;
 
     const result = Number.parseFloat(attribute);
     if (isNaN(result)) {
-        error.handleError(error.ErrorType.Warning, "Invalid attribute value: " + result);
+        error.handleError(error.ErrorType.Warning, 'Invalid attribute value: ' + result);
         return undefined;
     }
     return result;
@@ -64,13 +64,13 @@ export function getNumberAttribute(element: Element, attributeName: string): num
  * @returns Attribute string or undefined if attribute isn't defined.
  */
 export function getStringAttribute(element: Element, attributeName: string): string | undefined {
-    if (element === null) throw new error.SliderError(error.ErrorType.Error, "Empty element in getStringAttribute.");
+    if (element === null) throw new error.SliderError(error.ErrorType.Error, 'Empty element in getStringAttribute.');
 
     const attribute = element.getAttribute(attributeName);
     if (attribute === null) return null;
     // However if the attribute is defined but empty then it's an error.
     if (attribute === undefined || attribute.length === 0) {
-        error.handleError(error.ErrorType.Warning, "Undefined or empty attribute: " + attributeName);
+        error.handleError(error.ErrorType.Warning, 'Undefined or empty attribute: ' + attributeName);
         return undefined;
     }
 
@@ -89,19 +89,19 @@ export function assignNullableAttribute(
     defaultValue: string | number | boolean
 ): string | number | boolean {
     if (element === null)
-        throw new error.SliderError(error.ErrorType.Error, "Empty element in assignNullableAttribute.");
+        throw new error.SliderError(error.ErrorType.Error, 'Empty element in assignNullableAttribute.');
 
-    if (typeof defaultValue === "string") {
+    if (typeof defaultValue === 'string') {
         const returnVal = getStringAttribute(element, attributeName);
         return returnVal === undefined ? defaultValue : returnVal;
-    } else if (typeof defaultValue === "number") {
+    } else if (typeof defaultValue === 'number') {
         const returnVal = getNumberAttribute(element, attributeName);
         return returnVal === undefined ? defaultValue : returnVal;
-    } else if (typeof defaultValue === "boolean") {
+    } else if (typeof defaultValue === 'boolean') {
         const returnVal = getStringAttribute(element, attributeName);
-        return returnVal === undefined ? defaultValue : returnVal === "true";
+        return returnVal === undefined ? defaultValue : returnVal === 'true';
     } else {
-        throw new error.SliderError(error.ErrorType.Error, "Unexpected attribute type in assignNullableAttribute.");
+        throw new error.SliderError(error.ErrorType.Error, 'Unexpected attribute type in assignNullableAttribute.');
     }
 }
 
@@ -114,11 +114,11 @@ export function assignNullableAttribute(
  * ```typescript
  * const parentOptions: common.OptionsArray = [
     {
-        paramName: "transition-size",
+        paramName: 'transition-size',
         defaultValue: 1
     },
     {
-        paramName: "dragable",
+        paramName: 'dragable',
         defaultValue: true
     }
     ]
@@ -140,7 +140,7 @@ export function* assignNullableAttributes(
  * @param className Assign this class name to the canvas.
  */
 export function createAndInsertCanvasElement(container: Element, className: string): HTMLCanvasElement {
-    let canvasElement = document.createElement("canvas");
+    let canvasElement = document.createElement('canvas');
     canvasElement.width = container.clientWidth;
     canvasElement.height = container.clientHeight;
     container.appendChild(canvasElement);

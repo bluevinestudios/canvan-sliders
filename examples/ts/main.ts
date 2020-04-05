@@ -1,11 +1,11 @@
-import { SliderCreator } from "index";
+import { SliderCreator } from 'index';
 
 let sliderCreator: SliderCreator;
-const attributeSelectorPrefix = "canvan";
+const attributeSelectorPrefix = 'canvan';
 
 function waitForDomContentLoaded() {
     return new Promise<HTMLDocument>(resolve => {
-        window.addEventListener("DOMContentLoaded", (event: Event) => {
+        window.addEventListener('DOMContentLoaded', (event: Event) => {
             let target: EventTarget = event.target as EventTarget;
             let document: HTMLDocument = target as HTMLDocument;
             resolve(document);

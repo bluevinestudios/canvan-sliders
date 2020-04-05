@@ -1,37 +1,28 @@
-import { SliderImage } from "../sliderImage";
-import { EventDispatcher } from "../eventDispatcher";
-import { EventType, ResizeParams } from "../eventTypes";
-import { Animatable } from "./animatable";
+import { EventDispatcher } from '../eventDispatcher';
+import { EventType, ResizeParams } from '../eventTypes';
+import { Animatable } from './animatable';
+import { Coordinate } from '../../common';
 
 /**
- * Abstract class to handle a given canvas animation layer.  Responsible for
- * drawing, time step increments, resizing, etc.
+ * Abstract class to handle a given canvas animation layer.  Responsible for drawing, time step increments,
+ * resizing, etc.
  */
 export abstract class CanvasAnimationElement implements Animatable {
     /**
      * Constructor
-     * @param optionsElement DOM element that has attribute option parameters
-     * to parse from.
+     * @param optionsElement DOM element that has attribute option parameters to parse from.
      * @param canvasElement  Canvas element to draw on.
      * @param eventDispatcher  Dispatcher to publish or subscribe to events.
      */
-    constructor(
-        optionsElement: Element,
-        canvasElement: HTMLCanvasElement,
-        eventDispatcher: EventDispatcher
-    ) {
+    constructor(optionsElement: Element, canvasElement: HTMLCanvasElement, eventDispatcher: EventDispatcher) {
         this.optionsElement = optionsElement;
         this.canvasElement = canvasElement;
         this.eventDispatcher = eventDispatcher;
-        this.eventDispatcher.subscribe(
-            EventType.Resize,
-            this.onResize.bind(this)
-        );
+        this.eventDispatcher.subscribe(EventType.Resize, this.onResize.bind(this));
     }
 
     /**
-     *  Initialization, returns a promise that is resolved when this canvas
-     *  is ready to go (images loaded, etc.)
+     *  Initialization, returns a promise that is resolved when this canvas is ready to go (images loaded, etc.)
      */
     abstract async init(): Promise<void>;
 
@@ -44,18 +35,13 @@ export abstract class CanvasAnimationElement implements Animatable {
      * @param position X,Y position with values [0, 1] where the mouse is.
      * @param movement Differential mouse movement between move events (0-1).
      */
-    abstract updatePosition(
-        position: [number, number],
-        movement: [number, number]
-    );
+    abstract updatePosition(position: Coordinate, movement: Coordinate);
 
     resize() {
-        this.canvasElement.width =
-            window.devicePixelRatio * this.canvasElement.clientWidth;
-        this.canvasElement.height =
-            window.devicePixelRatio * this.canvasElement.clientHeight;
+        this.canvasElement.width = window.devicePixelRatio * this.canvasElement.clientWidth;
+        this.canvasElement.height = window.devicePixelRatio * this.canvasElement.clientHeight;
 
-        this.context = this.canvasElement.getContext("2d", {
+        this.context = this.canvasElement.getContext('2d', {
             alpha: true
         }) as CanvasRenderingContext2D;
 

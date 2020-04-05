@@ -1,22 +1,22 @@
-import * as error from "../../../error";
-import * as utils from "../../../utils";
-import * as constants from "../../../constants";
-import { AnimationState, AxisSliderState } from "./axisSliderState";
-import { SliderImage } from "../../sliderImage";
-import { CanvasImageAnimationElement } from "../canvasImageAnimationElement";
-import { GradientRadial } from "../../gradientRadial";
-import { EventDispatcher } from "../../eventDispatcher";
-import { EventType, ResizeParams } from "../../eventTypes";
-import { GradientLinear } from "../../gradientLinear";
+import * as error from '../../../error';
+import * as utils from '../../../utils';
+import * as constants from '../../../constants';
+import { AnimationState, AxisSliderState } from './axisSliderState';
+import { SliderImage } from '../../sliderImage';
+import { CanvasImageAnimationElement } from '../canvasImageAnimationElement';
+import { GradientRadial } from '../../gradientRadial';
+import { EventDispatcher } from '../../eventDispatcher';
+import { GradientLinear } from '../../gradientLinear';
 import { GradientType, SliderType } from './axisSliderTypes';
+import { Coordinate } from '../../../common';
 
 /** Option names as they appear in the HTML tags. */
-const windowWidthParamName = "window-width";
-const radiusParamName = "radius";
+const windowWidthParamName = 'window-width';
+const radiusParamName = 'radius';
 
 /**
- * Animated canvas that slides a visible image vertical slice across the canvas
- * left to right, looping around at the right side to the left.
+ * Single animated canvas that slides a vertical image slice across the canvas left to right, looping around at the
+ * right side to the left.
  */
 export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     constructor(
@@ -26,7 +26,7 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
         sliderImage: SliderImage,
         canvasElement: HTMLCanvasElement,
         eventDispatcher: EventDispatcher,
-        gradientCenter: [number, number],
+        gradientCenter: Coordinate,
         animationState: AnimationState,
         positionIncrement: number,
         gradientTransitionWidth: number
@@ -43,10 +43,8 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     }
 
     step(timestamp: number) {
-        if (this.gradientType == GradientType.Linear)
-            this.linearStep(timestamp);
-        else
-            this.radialStep(timestamp);
+        if (this.gradientType == GradientType.Linear) this.linearStep(timestamp);
+        else this.radialStep(timestamp);
     }
 
     linearStep(timestamp: number) {
@@ -73,45 +71,35 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
         this.addGradient();
     }
     addGradient() {
-        if (this.gradientType == GradientType.Linear)
-            this.addLinearGradient();
-        else
-            this.addRadialGradient();
+        if (this.gradientType == GradientType.Linear) this.addLinearGradient();
+        else this.addRadialGradient();
     }
 
     addLinearGradient() {
         if (this.windowWidth > 0) {
-            this.context.globalCompositeOperation = "destination-out";
+            this.context.globalCompositeOperation = 'destination-out';
 
             let width = this.canvasElement.clientWidth;
             let height = this.canvasElement.clientHeight;
-            let gradient = new GradientLinear(
-                this.context,
-                {
-                    width,
-                    height,
-                    centerPosition: this.gradientCenter[0],
-                    visibleWindowWidth: this.windowWidth,
-                    gradientTransitionWidth: this.gradientTransitionWidth
-                }
-            );
+            let gradient = new GradientLinear(this.context, {
+                width,
+                height,
+                centerPosition: this.gradientCenter[0],
+                visibleWindowWidth: this.windowWidth,
+                gradientTransitionWidth: this.gradientTransitionWidth
+            });
 
             gradient.addGradientStops();
 
             this.context.fillStyle = gradient.gradientElement;
-            this.context.fillRect(
-                0,
-                0,
-                this.canvasElement.clientWidth,
-                this.canvasElement.clientHeight
-            );
-            this.context.globalCompositeOperation = "source-over";
+            this.context.fillRect(0, 0, this.canvasElement.clientWidth, this.canvasElement.clientHeight);
+            this.context.globalCompositeOperation = 'source-over';
         }
     }
 
     addRadialGradient() {
         if (this.radius > 0) {
-            this.context.globalCompositeOperation = "destination-out";
+            this.context.globalCompositeOperation = 'destination-out';
 
             let width = this.canvasElement.clientWidth;
             let height = this.canvasElement.clientHeight;
@@ -125,15 +113,10 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
                 this.gradientTransitionWidth
             );
             gradient.addGradientStops();
-            
+
             this.context.fillStyle = gradient.gradientElement;
-            this.context.fillRect(
-                0,
-                0,
-                this.canvasElement.clientWidth,
-                this.canvasElement.clientHeight
-            );
-            this.context.globalCompositeOperation = "source-over";            
+            this.context.fillRect(0, 0, this.canvasElement.clientWidth, this.canvasElement.clientHeight);
+            this.context.globalCompositeOperation = 'source-over';
         }
     }
 
@@ -159,34 +142,25 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
         this.radius /= 100;
     }
 
-    updatePosition(position: [number, number], movement: [number, number]) {
-        if (this.gradientType == GradientType.Linear)
-            this.updateLinearPosition(position, movement);
-        else
-            this.updateRadialPosition(position, movement);
+    updatePosition(position: Coordinate, movement: Coordinate) {
+        if (this.gradientType == GradientType.Linear) this.updateLinearPosition(position, movement);
+        else this.updateRadialPosition(position, movement);
     }
 
-    updateRadialPosition(position: [number, number], movement: [number, number]) {
-        //this.gradientCenter = [position[0], position[1]];
+    updateRadialPosition(position: Coordinate, movement: Coordinate) {
         this.gradientCenter[0] = movement[0] + this.startPosition[0];
         this.gradientCenter[1] = movement[1] + this.startPosition[1];
-        if (this.gradientCenter[0] > 1)
-            this.gradientCenter[0] = this.gradientCenter[0] - 1;
-        if (this.gradientCenter[0] < 0)
-            this.gradientCenter[0] = 1 + this.gradientCenter[0];
+        if (this.gradientCenter[0] > 1) this.gradientCenter[0] = this.gradientCenter[0] - 1;
+        if (this.gradientCenter[0] < 0) this.gradientCenter[0] = 1 + this.gradientCenter[0];
 
-        if (this.gradientCenter[1] > 1)
-            this.gradientCenter[1] = this.gradientCenter[1] - 1;
-        if (this.gradientCenter[1] < 0)
-            this.gradientCenter[1] = 1 + this.gradientCenter[1];
+        if (this.gradientCenter[1] > 1) this.gradientCenter[1] = this.gradientCenter[1] - 1;
+        if (this.gradientCenter[1] < 0) this.gradientCenter[1] = 1 + this.gradientCenter[1];
     }
 
-    updateLinearPosition(position: [number, number], movement: [number, number]) {
+    updateLinearPosition(position: Coordinate, movement: Coordinate) {
         this.gradientCenter[0] = movement[0] + this.startPosition[0];
-        if (this.gradientCenter[0] > 1)
-            this.gradientCenter[0] = this.gradientCenter[0] - 1;
-        if (this.gradientCenter[0] < 0)
-            this.gradientCenter[0] = 1 + this.gradientCenter[0];
+        if (this.gradientCenter[0] > 1) this.gradientCenter[0] = this.gradientCenter[0] - 1;
+        if (this.gradientCenter[0] < 0) this.gradientCenter[0] = 1 + this.gradientCenter[0];
     }
 
     get visibleWindowWidth() {
@@ -195,8 +169,8 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
 
     protected positionIncrement: number;
     protected windowWidth: number;
-    protected startPosition: [number, number];
-    protected gradientCenter: [number, number];
+    protected startPosition: Coordinate;
+    protected gradientCenter: Coordinate;
     protected radius: number;
     protected gradientTransitionWidth: number;
     protected animationState: AnimationState;

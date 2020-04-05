@@ -8,7 +8,7 @@ export const defaultSliderRadius = 50;
 // because we wrap the gradient around the 0/1 boundaries.
 export const minimumGradientWidth = 0.0001;
 
-/** 
+/**
  *  Various class selectors defining our canvas animation.  A user-defined
  * (or default 'canvan') prefix is added to these selectors.  For example,
  * a top-level component would be, by default, 'canvan-animator'.
