@@ -67,7 +67,7 @@ export function getStringAttribute(element: Element, attributeName: string): str
     if (element === null) throw new error.SliderError(error.ErrorType.Error, 'Empty element in getStringAttribute.');
 
     const attribute = element.getAttribute(attributeName);
-    if (attribute === null) return null;
+    if (attribute === null) return undefined;
     // However if the attribute is defined but empty then it's an error.
     if (attribute === undefined || attribute.length === 0) {
         error.handleError(error.ErrorType.Warning, 'Undefined or empty attribute: ' + attributeName);
@@ -99,7 +99,16 @@ export function assignNullableAttribute(
         return returnVal === undefined ? defaultValue : returnVal;
     } else if (typeof defaultValue === 'boolean') {
         const returnVal = getStringAttribute(element, attributeName);
-        return returnVal === undefined ? defaultValue : returnVal === 'true';
+        let result = false;
+        if (returnVal != null && returnVal !== undefined) {
+            
+            let val = returnVal.toLowerCase();
+            if (val !== 'true' && val !== 'false')
+                error.handleError(error.ErrorType.Warning, `Invalid attribute value ${val} for boolean ${attributeName}`);
+            else
+                result = val === 'true';
+        }
+        return returnVal === undefined ? defaultValue : result;
     } else {
         throw new error.SliderError(error.ErrorType.Error, 'Unexpected attribute type in assignNullableAttribute.');
     }

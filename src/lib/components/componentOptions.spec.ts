@@ -2,10 +2,13 @@ import * as constants from '../constants';
 import { ComponentOptions } from './componentOptions';
 
 
-describe('pf-global-options', () => {
+describe('pf-component-options', () => {
 
-    let options = new ComponentOptions();
-
+    let options: ComponentOptions = null;
+    beforeEach(() => {
+        options = new ComponentOptions(true);
+    });
+    
     it('uses value in constructor', () => {
         let options = new ComponentOptions(true);
         expect(options.dragable).toBe(true);
@@ -18,27 +21,33 @@ describe('pf-global-options', () => {
         dummyDiv.getAttribute = jasmine.createSpy('HTML Element').and.returnValue('true');        
         options.parse(dummyDiv);
         expect(options.dragable).toBe(true);
-    });
+    });  
 
     it('can handle bad input', () => {
         var dummyDiv = document.createElement('div');
         dummyDiv.getAttribute = jasmine.createSpy('HTML Element').and.returnValue('123');
+        // We expect a warning from the invalid input.
+        console.warn = jasmine.createSpy('Log Warning').and.callThrough();
+
         options.parse(dummyDiv);
-        expect(options.dragable).toBe(true);
-    });
+
+        expect(console.warn).toHaveBeenCalled();        
+        expect(options.dragable).toBe(false);
+    }); 
 
     it('can handle undefined input', () => {
         var dummyDiv = document.createElement('div');
-        dummyDiv.getAttribute = jasmine.createSpy('HTML Element').and.returnValue(undefined);
+        dummyDiv.getAttribute = jasmine.createSpy('HTML Element').and.returnValue(undefined);        
         options.parse(dummyDiv);
         expect(options.dragable).toBe(true);
-    });
+    }); 
 
     it('can handle null input', () => {
+        let options = new ComponentOptions(true);
         var dummyDiv = document.createElement('div');
         dummyDiv.getAttribute = jasmine.createSpy('HTML Element').and.returnValue(null);
         options.parse(dummyDiv);
         expect(options.dragable).toBe(true);
-    });
+    }); 
 
 });
