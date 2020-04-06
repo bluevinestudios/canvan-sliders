@@ -3,7 +3,6 @@
   <p align="center">
     <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/license-MIT-green.svg"></a>
     <a href="https://prettier.io" target="_blank"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat"></a>
-    </a>
   </p>
 
   <strong>
@@ -17,13 +16,13 @@
 
   <br>
 
-<!--  <p align="center">
+  <p align="center">
     <strong>
-      <code>&nbsp;<a href="https://davidcetinkaya.github.io/embla-carousel">TRY DEMO</a>&nbsp;</code>
+      <code>&nbsp;<a href="https://bluevinestudios.github.io/canvan-sliders/">TRY DEMO</a>&nbsp;</code>
     </strong>
   </p>
 
-  <br> -->
+  <br>
 
 </div>
 <br />
