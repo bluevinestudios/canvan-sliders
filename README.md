@@ -14,14 +14,14 @@
     way to show what it can do now is to visit the demo page and check out the video below.
   </p>
   <br />
+  <img src="https://www.bluevinestudios.com/canvan-demo.webp" alt="Canvan Demo Animation" />
+  <br/>
   <p align="center">  
     <strong>
       <code>&nbsp;<a href="https://bluevinestudios.github.io/canvan-sliders/">TRY DEMO</a>&nbsp;</code>
     </strong>
   </p>
-
-  <br/>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/ql4kpVNtMXw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  
   <br />
 
 </div>
