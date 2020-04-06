@@ -10,19 +10,19 @@
   </strong>
 
   <p align="center">
-    Canvan Sliders allows you to build interactive, animatable before/after canvas sliders.  
-    Canvan Sliders is dependency free and 100% open source.
+    Canvan Sliders allows you to build interactive, animatable before/after canvas sliders.  Still a WIP, the best
+    way to show what it can do now is to visit the demo page and check out the video below.
   </p>
-
-  <br>
-
-  <p align="center">
+  <br />
+  <p align="center">  
     <strong>
       <code>&nbsp;<a href="https://bluevinestudios.github.io/canvan-sliders/">TRY DEMO</a>&nbsp;</code>
     </strong>
   </p>
 
-  <br>
+  <br/>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/ql4kpVNtMXw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <br />
 
 </div>
 <br />
@@ -41,38 +41,25 @@ HTML
 
 ```html
 <div class="canvan-container">
-        <div class="canvan-animator">
-            <div class="canvan-linear-slider" transition-size="1" position-increment="0.1" dragable="true">
-                 <picture>
-                     <source srcset="/images/source_example2b.webp" type="image/webp" />
-                     <img src="/images/source_example2b.jpg" type="image/jpeg"  static="true"/>
-                 </picture>
-                 <picture>
-                     <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                     <img src="/images/mapped_example2.jpg" type="image/jpeg" window-width="50" start-position-x="50"/>
-                 </picture>
-
-                 <picture>
-                     <source srcset="/images/color_example2.webp" type="image/webp" />
-                     <img src="/images/color_example2.jpg" type="image/jpeg" window-width="20" start-position-x="60"/>
-                 </picture>
-             </div> 
-             <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
-                <picture>
-                    <source srcset="/images/source_example2.webp" type="image/webp" />
-                    <img src="/images/source_example2.jpg" type="image/jpeg" radius="10" start-position-x="0" start-position-y="40" />
-                </picture>
-                <picture>
-                    <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                    <img src="/images/mapped_example2.jpg" type="image/jpeg" radius="10" start-position-x="15" start-position-y="80" />
-                </picture>
-                <picture>
-                    <source srcset="/images/color_example2.webp" type="image/webp" />
-                    <img src="/images/color_example2.jpg" type="image/jpeg" radius="10" start-position-x="80" start-position-y="10" />
-                </picture>
-            </div>
+    <div class="canvan-animator">
+        <div class="canvan-static-slider">
+            <picture>
+                <source srcset="./images/source_example2.webp" type="image/webp" />
+                <img src="./images/source_example2.jpg" type="image/jpeg" />
+            </picture>
+        </div>
+        <div class="canvan-linear-slider" transition-size="5" position-increment="0.5" dragable="true">
+            <picture>
+                <source srcset="./images/mapped_example2.webp" type="image/webp" />
+                <img src="./images/mapped_example2.jpg" type="image/jpeg" size="50" />
+            </picture>
+            <picture>
+                <source srcset="./images/color_example2.webp" type="image/webp" />
+                <img src="./images/color_example2.jpg" type="image/jpeg" size="20" />
+            </picture>
         </div>
     </div>
+</div>
 
 ```
 
@@ -104,6 +91,10 @@ CSS
     max-width: initial;
     margin-bottom: 0;
     width: auto;
+}
+
+.canvan-static-slider img {
+    display: none;
 }
 
 .canvan-linear-slider img {
@@ -152,6 +143,8 @@ waitForDomContentLoaded()
 <br>
 
 ## Options
+
+<p>WIP</p>
 
 <br>
 

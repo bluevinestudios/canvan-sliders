@@ -2,58 +2,807 @@
 <head>
     <title></title>
     <link href="./css/example.css" rel="stylesheet" />
+    <style>
+        @font-face {
+            font-family: raleway-font;
+            font-style: normal;
+            font-weight: 400;
+            src: local("Palatino Regular"),local("Palatino-Regular"),url(fonts/Raleway-Regular.woff2);
+            font-display: swap
+        }
+
+        body, html, p {
+            margin: 0;
+            padding: 0
+        }
+
+        section {
+            display: block
+        }
+
+        .navbar-link:not(.is-arrowless)::after {
+            border: 3px solid transparent;
+            border-radius: 2px;
+            border-right: 0;
+            border-top: 0;
+            content: " ";
+            display: block;
+            height: .625em;
+            margin-top: -.4375em;
+            position: absolute;
+            top: 50%;
+            transform: rotate(-45deg);
+            transform-origin: center;
+            width: .625em
+        }
+
+        .box:not(:last-child), .level:not(:last-child) {
+            margin-bottom: 1.5rem
+        }
+
+        body, figure, html, p {
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            box-sizing: border-box
+        }
+
+        *, ::after, ::before {
+            box-sizing: inherit
+        }
+
+        html {
+            background-color: #fff;
+            font-size: 16px;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            min-width: 300px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            text-rendering: optimizeLegibility;
+            text-size-adjust: 100%
+        }
+
+        figure, section {
+            display: block
+        }
+
+        body {
+            font-family: raleway-font,serif
+        }
+
+        body {
+            color: #4a4a4a;
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 1.5
+        }
+
+        a {
+            color: #1556be;
+            text-decoration: none
+        }
+
+        img {
+            height: auto;
+            max-width: 100%
+        }
+
+        span {
+            font-style: inherit;
+            font-weight: inherit
+        }
+
+        .box {
+            background-color: rgba(236,239,249,.5);
+            border-radius: 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.1);
+            color: #121212;
+            display: block;
+            padding: 1.25rem
+        }
+
+        .title {
+            word-break: break-word
+        }
+
+        .title {
+            color: #363636;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.125
+        }
+
+            .title.is-4 {
+                font-size: 1.5rem
+            }
+
+            .title.is-5 {
+                font-size: 1.25rem
+            }
+
+        .level {
+            align-items: center;
+            justify-content: space-between
+        }
+
+        @media screen and (min-width:769px),print {
+            .level {
+                display: flex
+            }
+
+                .level > .level-item:not(.is-narrow) {
+                    flex-grow: 1
+                }
+
+            .level-right .level-item:not(:last-child) {
+                margin-right: .75rem
+            }
+        }
+
+        .level-item {
+            align-items: center;
+            display: flex;
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 0;
+            justify-content: center
+        }
+
+        @media screen and (max-width:768px) {
+            .level-item:not(:last-child) {
+                margin-bottom: .75rem
+            }
+        }
+
+        .level-right {
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 0
+        }
+
+        .level-right {
+            align-items: center;
+            justify-content: flex-end
+        }
+
+        @media screen and (min-width:769px),print {
+            .level-right {
+                display: flex
+            }
+        }
+
+        .navbar {
+            background-color: #000;
+            min-height: 3.5rem;
+            position: relative;
+            z-index: 30
+        }
+
+        .navbar-brand {
+            align-items: stretch;
+            display: flex;
+            flex-shrink: 0;
+            min-height: 3.5rem
+        }
+
+        .navbar-burger {
+            color: #fff9dd;
+            display: block;
+            height: 3.5rem;
+            position: relative;
+            width: 3.5rem;
+            margin-left: auto
+        }
+
+            .navbar-burger span {
+                background-color: currentColor;
+                display: block;
+                height: 1px;
+                left: calc(50% - 8px);
+                position: absolute;
+                transform-origin: center;
+                width: 16px
+            }
+
+                .navbar-burger span:nth-child(2) {
+                    top: calc(50% - 1px)
+                }
+
+                .navbar-burger span:nth-child(3) {
+                    top: calc(50% + 4px)
+                }
+
+        .navbar-menu {
+            display: none
+        }
+
+        .navbar-item, .navbar-link {
+            color: #fff9dd;
+            display: block;
+            line-height: 1.5;
+            padding: .5rem .75rem;
+            position: relative
+        }
+
+        .navbar-item {
+            display: block;
+            flex-grow: 0;
+            flex-shrink: 0
+        }
+
+            .navbar-item.has-dropdown {
+                padding: 0
+            }
+
+        .navbar-link:not(.is-arrowless) {
+            padding-right: 2.5em
+        }
+
+            .navbar-link:not(.is-arrowless)::after {
+                border-color: #1556be;
+                margin-top: -.375em;
+                right: 1.125em
+            }
+
+        .navbar-dropdown {
+            font-size: .875rem;
+            padding-bottom: .5rem;
+            padding-top: .5rem
+        }
+
+            .navbar-dropdown .navbar-item {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem
+            }
+
+        @media screen and (max-width:1023px) {
+            .navbar-brand .navbar-item {
+                align-items: center;
+                display: flex
+            }
+
+            .navbar-link::after {
+                display: none
+            }
+
+            .navbar-menu {
+                background-color: #000;
+                box-shadow: 0 8px 16px rgba(0,0,0,.1);
+                padding: .5rem 0
+            }
+        }
+
+        @media screen and (min-width:1024px) {
+            .navbar, .navbar-end, .navbar-menu, .navbar-start {
+                align-items: stretch;
+                display: flex
+            }
+
+            .navbar {
+                min-height: 3.5rem
+            }
+
+            .navbar-burger {
+                display: none
+            }
+
+            .navbar-item, .navbar-link {
+                align-items: center;
+                display: flex
+            }
+
+            .navbar-item {
+                display: flex
+            }
+
+                .navbar-item.has-dropdown {
+                    align-items: stretch
+                }
+
+            .navbar-menu {
+                flex-grow: 1;
+                flex-shrink: 0
+            }
+
+            .navbar-start {
+                justify-content: flex-start;
+                margin-right: auto
+            }
+
+            .navbar-end {
+                justify-content: flex-end;
+                margin-left: auto
+            }
+
+            .navbar-dropdown {
+                background-color: #fff;
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
+                border-top: 2px solid #dbdbdb;
+                box-shadow: 0 8px 8px rgba(0,0,0,.1);
+                display: none;
+                font-size: .875rem;
+                left: 0;
+                min-width: 100%;
+                position: absolute;
+                top: 100%;
+                z-index: 20
+            }
+
+                .navbar-dropdown .navbar-item {
+                    padding: .375rem 1rem;
+                    white-space: nowrap
+                }
+
+                .navbar-dropdown a.navbar-item {
+                    padding-right: 3rem
+                }
+        }
+
+        .column {
+            display: block;
+            flex-basis: 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            padding: 1.5em
+        }
+
+        .columns.is-mobile > .column.is-narrow {
+            flex: none
+        }
+
+        .columns.is-mobile > .column.is-11 {
+            flex: none;
+            width: 91.66667%
+        }
+
+        .columns.is-mobile > .column.is-12 {
+            flex: none;
+            width: 100%
+        }
+
+        @media screen and (min-width:769px),print {
+            .column.is-narrow {
+                flex: none
+            }
+
+            .column.is-11 {
+                flex: none;
+                width: 91.66667%
+            }
+
+            .column.is-12 {
+                flex: none;
+                width: 100%
+            }
+
+            .columns:not(.is-desktop) {
+                display: flex
+            }
+        }
+
+        .columns {
+            margin-left: -1.5em;
+            margin-right: -1.5em;
+            margin-top: -1.5em
+        }
+
+            .columns:last-child {
+                margin-bottom: -1.5em
+            }
+
+            .columns:not(:last-child) {
+                margin-bottom: calc(1.5rem - 1.5em)
+            }
+
+            .columns.is-centered {
+                justify-content: center
+            }
+
+            .columns.is-gapless {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 0
+            }
+
+                .columns.is-gapless > .column {
+                    margin: 0;
+                    padding: 0 !important
+                }
+
+                .columns.is-gapless:not(:last-child) {
+                    margin-bottom: 1.5rem
+                }
+
+                .columns.is-gapless:last-child {
+                    margin-bottom: 0
+                }
+
+            .columns.is-mobile {
+                display: flex
+            }
+
+            .columns.is-multiline {
+                flex-wrap: wrap
+            }
+
+        .navbar-burger {
+            color: #fff9dd;
+            display: block;
+            height: unset;
+            position: relative;
+            width: 3.5rem;
+            margin-left: auto
+        }
+
+            .navbar-burger span {
+                display: block;
+                height: 2px;
+                left: calc(50% - 11px);
+                position: absolute;
+                transform-origin: center;
+                width: 20px
+            }
+
+                .navbar-burger span:nth-child(1) {
+                    top: calc(50% - 6px)
+                }
+
+                .navbar-burger span:nth-child(2) {
+                    top: calc(50% + 1px)
+                }
+
+                .navbar-burger span:nth-child(3) {
+                    top: calc(50% + 8px)
+                }
+
+        .is-medium a {
+            color: #001f7a
+        }
+
+            .is-medium a:visited {
+                color: #000
+            }
+
+        .no-padding {
+            padding: 0
+        }
+
+        .writing-container-transparent {
+            border: thick solid #000;
+            padding-bottom: 3rem
+        }
+
+            .writing-container-transparent p {
+                word-wrap: break-word
+            }
+
+        .writing-container-transparent {
+            background: rgba(255,255,255,.5)
+        }
+
+            .writing-container-transparent a {
+                color: #001b66;
+                border-bottom: 1px solid rgba(14,41,113,.5)
+            }
+
+                .writing-container-transparent a img, .writing-container-transparent a picture {
+                    border: 0
+                }
+
+                .writing-container-transparent a:visited {
+                    color: #1c51e3
+                }
+
+        .canvan-canvas-slider-hero {
+            max-width: initial;
+            position: relative;
+            box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.5);
+            margin-bottom: 2rem;
+            width: 450px;
+            height: 300px
+        }
+
+        @media screen and (min-width:769px),print {
+            .canvan-canvas-slider-hero {
+                width: 450x;
+                height: 300px
+            }
+        }
+
+        .canvan-canvas-slider-hero {
+            max-width: initial;
+            position: relative;
+            box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.5);
+            margin-bottom: 2rem;
+            width: 350px;
+            height: 232px
+        }
+
+        @media screen and (min-width:769px),print {
+            .canvan-canvas-slider-hero {
+                width: 650px;
+                height: 433px
+            }
+        }
+
+        .canvan-canvas-slider-hero > div {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: inline-block
+        }
+
+        .canvan-container + .canvan-hover-hint {
+            display: none;
+            opacity: 0;
+            background-color: #fff;
+            text-align: center;
+            color: #000;
+            position: relative;
+            font-size: 2rem;
+            width: 40%;
+            height: auto;
+            top: -100%;
+            left: 0
+        }
+
+        .navbar-brand-container {
+            outline: #000 solid thick
+        }
+
+        .navbar-brand {
+            background-color: transparent
+        }
+
+        @media screen and (min-width:1024px) {
+            .navbar-burger {
+                display: none
+            }
+
+            .canvan-canvas-slider-hero {
+                width: 900px;
+                height: 600px
+            }
+
+            .navbar-brand-container {
+                outline: 0
+            }
+
+            .navbar-menu {
+                background-color: transparent
+            }
+
+            .navbar-dropdown > .navbar-item {
+                color: #101224
+            }
+
+            .navbar-link, a.navbar-item {
+                color: #fff9dd
+            }
+        }
+
+        .hover-thumb img {
+            box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.5)
+        }
+
+        * {
+            z-index: 1
+        }
+
+        body {
+            background-color: #000f23;
+            font-size: 1.25rem
+        }
+
+        figure img {
+            display: block
+        }
+
+        figure .caption {
+            position: relative;
+            opacity: 1;
+            padding-right: 7px;
+            top: -2rem;
+            background-image: linear-gradient(to right,rgba(255,255,255,0),#fff);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: right;
+            text-align: right;
+            color: #000
+        }
+
+        section {
+            margin-bottom: 2rem
+        }
+
+        .level:not(:last-child) {
+            margin-bottom: 0
+        }
+
+        .bluevine-logo-header {
+            width: 48px;
+            height: 48px;
+            margin: 0;
+            box-shadow: 0 .1em .5em -.125em rgba(10,10,10,.5)
+        }
+
+            .bluevine-logo-header svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                position: relative;
+                top: .25rem
+            }
+
+        .hero-slider {
+            margin-top: 1rem
+        }
+
+        #background-picture {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: 0
+        }
+
+            #background-picture img {
+                width: 100%;
+                height: 100%
+            }
+
+        .box {
+            word-wrap: break-word;
+            padding: 2rem
+        }
+
+            .box a {
+                color: #001b66;
+                border-bottom: 1px solid rgba(14,41,113,.5)
+            }
+
+                .box a img, .box a picture {
+                    border: 0
+                }
+
+                .box a:visited {
+                    color: #1c51e3
+                }
+
+            .box p:not(:last-child) {
+                margin-bottom: 2rem
+            }
+
+        .content-below-hero {
+            position: relative
+        }
+
+        .main-column {
+            min-height: 100vh
+        }
+
+        @media screen and (min-width:1408px) {
+            .main-column {
+                flex: none;
+                width: 75%
+            }
+        }
+
+        @media screen and (min-width:2000px) {
+            .main-column {
+                flex: none;
+                width: 50%
+            }
+        }
+
+        .social-header {
+            display: block;
+            background-image: linear-gradient(to right,#bd2f23,#dacea6);
+            width: 100%;
+            outline: #000 solid thick;
+            padding: 0;
+            margin: 0;
+            z-index: 100
+        }
+    </style>
 </head>
+
 <body>
-    <div class="canvan-container">
-        <div class="canvan-animator">
-            <div class="canvan-static-slider">
-                 <picture>
-                     <source srcset="./images/source_example2.webp" type="image/webp" />
-                     <img src="./images/source_example2.jpg" type="image/jpeg" />
-                 </picture>
-            </div>
-            <div class="canvan-linear-slider" transition-size="5" position-increment="0.1" dragable="true">
-                 <picture>
-                     <source srcset="./images/mapped_example2.webp" type="image/webp" />
-                     <img src="./images/mapped_example2.jpg" type="image/jpeg" size="50"/>
-                 </picture>                
-                 <picture>
-                     <source srcset="./images/color_example2.webp" type="image/webp" />
-                     <img src="./images/color_example2.jpg" type="image/jpeg" size="20"/>
-                 </picture>
-             </div>              
-        </div>
-    </div>
+    <section class="columns is-centered is-gapless" style="position:relative">
+        <div class="column main-column">
+            <main>
+                <div class="columns is-multiline is-centered is-gapless">
+                    <div class="column is-narrow is-12">
+                        <div class="content-below-hero">
+                            <div class="writing-container-transparent">
 
-    <div class="canvan-container">
-        <div class="canvan-animator">
-            <div class="canvan-static-slider">
-                 <picture>
-                     <source srcset="./images/source_example1.webp" type="image/webp" />
-                     <img src="./images/source_example1.jpg" type="image/jpeg" />
-                 </picture>
-            </div>
-             <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
-                <picture>
-                    <source srcset="./images/source_example1.webp" type="image/webp" />
-                    <img src="./images/source_example1.jpg" type="image/jpeg" static="true" />
-                </picture>
-                <picture>
-                    <source srcset="./images/mapped_example1.webp" type="image/webp" />
-                    <img src="./images/mapped_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="20" />
-                </picture>
-                <picture>
-                    <source srcset="./images/color_example1.webp" type="image/webp" />
-                    <img src="./images/color_example1.jpg" type="image/jpeg" size="10" start-position-x="50" start-position-y="50" />
-                </picture>
-                <picture>
-                    <source srcset="./images/final_example1.webp" type="image/webp" />
-                    <img src="./images/final_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="70"  />
-                </picture>
-            </div>
-        </div>
-    </div>
+                                <div class="columns is-multiline is-mobile is-centered is-gapless">
+                                    <div class="column is-11">
 
-    <script src="./js/main.js"></script>
+                                        <div class="level">
+                                            <p class="title level-item">Canvan Sliders Demo!</p>
+                                        </div>
+                                        
+
+                                        <div class="columns is-multiline is-mobile is-centered hero-slider">
+                                            <div class="column is-narrow">
+
+                                                <div class="level">
+                                                    <p class="level-item title is-5">Horizontal Slider:</p>
+                                                </div>
+                                                <div class="canvan-canvas-slider-hero">
+                                                    <div class="canvan-container">
+                                                        <div class="canvan-animator">
+                                                            <div class="canvan-static-slider">
+                                                                <picture>
+                                                                    <source srcset="./images/source_example2.webp" type="image/webp" />
+                                                                    <img src="./images/source_example2.jpg" type="image/jpeg" />
+                                                                </picture>
+                                                            </div>
+                                                            <div class="canvan-linear-slider" transition-size="5" position-increment="0.5" dragable="true">
+                                                                <picture>
+                                                                    <source srcset="./images/mapped_example2.webp" type="image/webp" />
+                                                                    <img src="./images/mapped_example2.jpg" type="image/jpeg" size="50" />
+                                                                </picture>
+                                                                <picture>
+                                                                    <source srcset="./images/color_example2.webp" type="image/webp" />
+                                                                    <img src="./images/color_example2.jpg" type="image/jpeg" size="20" />
+                                                                </picture>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="canvan-hover-hint">
+                                                        Grab me, move me!
+                                                    </div>
+                                                </div>
+                                                <div class="level">
+                                                    <p class="level-item title is-5">Radial Slider #1:</p>
+                                                </div>
+                                                <div class="canvan-canvas-slider-hero">
+                                                    <div class="canvan-container">
+                                                        <div class="canvan-animator">
+                                                            <div class="canvan-static-slider">
+                                                                <picture>
+                                                                    <source srcset="/images/source_example1.webp" type="image/webp" />
+                                                                    <img src="/images/source_example1.jpg" type="image/jpeg" />
+                                                                </picture>
+                                                            </div>
+                                                            <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
+                                                                <picture>
+                                                                    <source srcset="/images/source_example1.webp" type="image/webp" />
+                                                                    <img src="/images/source_example1.jpg" type="image/jpeg" static="true" />
+                                                                </picture>
+                                                                <picture>
+                                                                    <source srcset="/images/mapped_example1.webp" type="image/webp" />
+                                                                    <img src="/images/mapped_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="20" />
+                                                                </picture>
+                                                                <picture>
+                                                                    <source srcset="/images/color_example1.webp" type="image/webp" />
+                                                                    <img src="/images/color_example1.jpg" type="image/jpeg" size="10" start-position-x="50" start-position-y="50" />
+                                                                </picture>
+                                                                <picture>
+                                                                    <source srcset="/images/final_example1.webp" type="image/webp" />
+                                                                    <img src="/images/final_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="70" />
+                                                                </picture>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
 </body>
+<script src="./js/main.js"></script>
 </html>
