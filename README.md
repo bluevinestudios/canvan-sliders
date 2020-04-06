@@ -1,39 +1,15 @@
-﻿<br />
-<div align="center">
-  <p align="center">
-    <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/license-MIT-green.svg"></a>
-    <a href="https://prettier.io" target="_blank"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat"></a>
-  </p>
+﻿# Canvan Sliders
 
-  <strong>
-    <h2 align="center">Canvan Sliders</h2>
-  </strong>
+Canvan Sliders allows you to build interactive, animatable before/after canvas sliders.  Still a WIP, the best
+way to show what it can do now is to try out the demo!:
 
-  <p align="center">
-    Canvan Sliders allows you to build interactive, animatable before/after canvas sliders.  Still a WIP, the best
-    way to show what it can do now is to visit the demo page and check out the video below.
-  </p>
-  <br />
-  <img src="https://www.bluevinestudios.com/canvan-demo.webp" alt="Canvan Demo Animation" />
-  <br/>
-  <p align="center">  
-    <strong>
-      <code>&nbsp;<a href="https://bluevinestudios.github.io/canvan-sliders/">TRY DEMO</a>&nbsp;</code>
-    </strong>
-  </p>
-  
-  <br />
-
-</div>
-<br />
+[TRY DEMO](https://bluevinestudios.github.io/canvan-sliders/)
 
 ## Installation
 
 NPM
 
 <pre>npm install <a href="https://www.npmjs.com/package/canvan-sliders">canvan-sliders</a></pre>
-
-<br>
 
 ## QuickStart
 
@@ -140,15 +116,10 @@ waitForDomContentLoaded()
     });
 ```
 
-<br>
 
 ## Options
 
-<p>WIP</p>
-
-<br>
-
-<h2 align="center">Open Source</h2>
+WIP
 
 <p align="center">
   <sup>Copyright © 2020, Ryan Robbins.</sup><br>
