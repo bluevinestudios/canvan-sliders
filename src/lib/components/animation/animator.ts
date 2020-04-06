@@ -60,6 +60,8 @@ export class Animator {
     private initializeAnimation() {
         this.lastWidth = this.container.clientWidth;
         this.lastHeight = this.container.clientHeight;
+        for (let animationElement of this.animationElements)
+            animationElement.active = true;
 
         // Sending a resize event tells our children elements what size they are after initialization.
         this.eventDispatcher.dispatch(

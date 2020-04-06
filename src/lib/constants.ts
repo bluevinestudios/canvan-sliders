@@ -6,7 +6,7 @@ export const defaultSliderRadius = 50;
 
 // Minimum width in % where we bother to show a gradient -- this can be so small
 // because we wrap the gradient around the 0/1 boundaries.
-export const minimumGradientWidth = 0.0001;
+export const minimumGradientWidth = 0.01;
 
 /**
  *  Various class selectors defining our canvas animation.  A user-defined
@@ -15,6 +15,7 @@ export const minimumGradientWidth = 0.0001;
  */
 export const animatorSelectorName = 'animator';
 export const uniqueSelectorID = 'component-id';
+export const staticSliderSelectorName = 'static-slider';
 export const linearSliderSelectorName = 'linear-slider';
 export const radialSliderSelectorName = 'radial-slider';
 export const embeddedCanvasClass = 'embedded';

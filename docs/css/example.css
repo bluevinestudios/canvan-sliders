@@ -1,0 +1,52 @@
+
+
+body {
+  background-color: white;
+  min-width: 25vw;
+  min-height: 25vh;
+}
+
+.canvan-container {
+    width: 900px;
+    height: 600px; 
+    max-width: initial;
+}
+
+.canvan-animator {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.canvan-slider {
+}
+
+
+.canvan-slider-mouse-down {
+    cursor: grabbing;
+}
+
+.canvan-embedded {
+    position: absolute;
+    height: 100%;
+    display: inline-block;
+    max-height: initial;
+    max-width: initial;
+    margin-bottom: 0;
+    width: auto;
+}
+
+.canvan-static-slider img {
+    display: none;
+}
+
+.canvan-linear-slider img {
+    display: none;
+}
+
+.canvan-radial-slider img {
+    display: none;
+}
+    
+  

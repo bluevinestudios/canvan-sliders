@@ -27,6 +27,7 @@ export abstract class MultiCanvasSlider extends MultiCanvasDragableAnimationElem
     abstract incrementPosition(): void;
     abstract parseOptions(): void;
     abstract get active(): boolean;
+    abstract set active(active: boolean);
     abstract get static(): boolean;
     abstract parseAndBuildChildren(): void;
 

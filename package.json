@@ -1,13 +1,16 @@
 {
   "name": "canvan-sliders",
   "version": "0.1.0",
-  "description": "",
+  "description": "Animated layered canvas sliders.",
   "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "build": "npm-run-all clean build-typescript rollup docs",
-    "docs": "typedoc --entryPoint 'index' --exclude \"**/*+(.spec|.e2e).ts\" --out docs --target es6 --mode modules src/index.ts",
+    "docs": "typedoc --entryPoint 'index' --exclude \"**/*+(.spec|.e2e).ts\" --out sourcedocs --target es6 --mode modules src/index.ts",
     "build-typescript": "tsc --module umd",
     "rollup": "rollup -c rollup.config.js",
+    "uglify": "uglifyjs dist/canvan-sliders.es5.js -c -o dist/canvan-sliders.es5.min.js",
     "rollup-watch": "rollup -w -c rollup.config.js",
     "serve": "browser-sync start --server \"./examples\" --files \"./examples\"",
     "clean": "rimraf dist",
@@ -15,14 +18,13 @@
     "start": "npm-run-all clean watch",
     "test": "karma start"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/jasmine": "^3.5.10",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "browser-sync": "^2.26.7",
     "eslint": "^6.8.0",
+    "express": "^4.17.1",
     "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^4.4.1",
@@ -33,9 +35,11 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.32.1",
-    "rollup-plugin-typescript2": "^0.25.3",
+    "rollup-plugin-typescript2": "^0.27.0",
+    "rollup-plugin-uglify": "^6.0.4",
     "ts-node": "^8.8.2",
     "typedoc": "^0.17",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "uglify-js": "^3.8.1"
   }
 }

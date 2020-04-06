@@ -90,6 +90,11 @@ body {
     width: auto;
 }
 
+.canvan-static-slider img {
+    display: none;
+}
+
+
 .canvan-linear-slider img {
     display: none;
 }

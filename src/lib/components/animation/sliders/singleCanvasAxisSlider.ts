@@ -1,6 +1,7 @@
 import * as error from '../../../error';
 import * as utils from '../../../utils';
 import * as constants from '../../../constants';
+import * as common from '../../../common';
 import { AnimationState, AxisSliderState } from './axisSliderState';
 import { SliderImage } from '../../sliderImage';
 import { CanvasImageAnimationElement } from '../canvasImageAnimationElement';
@@ -11,8 +12,20 @@ import { GradientType, SliderType } from './axisSliderTypes';
 import { Coordinate } from '../../../common';
 
 /** Option names as they appear in the HTML tags. */
-const windowWidthParamName = 'window-width';
-const radiusParamName = 'radius';
+const options: common.OptionsArray = [
+    {
+        paramName: 'start-position-x',
+        defaultValue: -1
+    },
+    {
+        paramName: 'start-position-y',
+        defaultValue: -1
+    },
+    {
+        paramName: 'size',
+        defaultValue: 20
+    }
+];
 
 /**
  * Single animated canvas that slides a vertical image slice across the canvas left to right, looping around at the
@@ -26,8 +39,6 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
         sliderImage: SliderImage,
         canvasElement: HTMLCanvasElement,
         eventDispatcher: EventDispatcher,
-        gradientCenter: Coordinate,
-        animationState: AnimationState,
         positionIncrement: number,
         gradientTransitionWidth: number
     ) {
@@ -35,11 +46,13 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
 
         this.gradientType = gradientType;
         this.sliderType = sliderType;
-        this.animationState = animationState;
-        this.gradientCenter = gradientCenter;
+        this.animationState = AnimationState.Inactive;        
         this.positionIncrement = positionIncrement;
         this.gradientTransitionWidth = gradientTransitionWidth;
-        this.startPosition = this.gradientCenter;
+
+        this.startPosition$ = [0, 0];
+        this.gradientCenter$ = [0, 0];
+        this.size$ = 0;
     }
 
     step(timestamp: number) {
@@ -48,21 +61,21 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     }
 
     linearStep(timestamp: number) {
-        this.gradientCenter[0] += this.positionIncrement;
-        if (this.gradientCenter[0] > 1) this.gradientCenter[0] = 0;
-        if (this.gradientCenter[0] < 0) this.gradientCenter[0] = 1;
+        this.gradientCenter$[0] += this.positionIncrement;
+        if (this.gradientCenter$[0] > 100) this.gradientCenter$[0] = 0;
+        if (this.gradientCenter$[0] < 0) this.gradientCenter$[0] = 100;
     }
 
     radialStep(timestamp: number) {
-        this.gradientCenter[0] += this.positionIncrement;
+        this.gradientCenter$[0] += this.positionIncrement;
 
-        let rightBound = 1 + this.radius;
-        let leftBound = -this.radius;
-        if (this.gradientCenter[0] > rightBound) {
-            this.gradientCenter[0] = leftBound;
+        let rightBound = 100 + this.size$;
+        let leftBound = -this.size$;
+        if (this.gradientCenter$[0] > rightBound) {
+            this.gradientCenter$[0] = leftBound;
         }
-        if (this.gradientCenter[0] < leftBound) {
-            this.gradientCenter[0] = rightBound;
+        if (this.gradientCenter$[0] < leftBound) {
+            this.gradientCenter$[0] = rightBound;
         }
     }
 
@@ -76,7 +89,7 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     }
 
     addLinearGradient() {
-        if (this.windowWidth > 0) {
+        if (this.size$ > 0) {
             this.context.globalCompositeOperation = 'destination-out';
 
             let width = this.canvasElement.clientWidth;
@@ -84,8 +97,8 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
             let gradient = new GradientLinear(this.context, {
                 width,
                 height,
-                centerPosition: this.gradientCenter[0],
-                visibleWindowWidth: this.windowWidth,
+                centerPosition: this.gradientCenter$[0],
+                visibleWindowWidth: this.size$,
                 gradientTransitionWidth: this.gradientTransitionWidth
             });
 
@@ -98,7 +111,7 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
     }
 
     addRadialGradient() {
-        if (this.radius > 0) {
+        if (this.size$ > 0) {
             this.context.globalCompositeOperation = 'destination-out';
 
             let width = this.canvasElement.clientWidth;
@@ -107,9 +120,9 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
                 this.context,
                 width,
                 height,
-                this.gradientCenter,
+                this.gradientCenter$,
                 0,
-                this.radius * width,
+                (this.size$ / 100) * width,
                 this.gradientTransitionWidth
             );
             gradient.addGradientStops();
@@ -127,52 +140,61 @@ export class SingleCanvasAxisSlider extends CanvasImageAnimationElement {
      * @param element
      */
     parseOptions() {
-        this.windowWidth = utils.assignNullableAttribute(
-            this.optionsElement,
-            windowWidthParamName,
-            constants.defaultVisibleWindowWidth
-        ) as number;
-        this.windowWidth /= 100;
 
-        this.radius = utils.assignNullableAttribute(
-            this.optionsElement,
-            radiusParamName,
-            constants.defaultSliderRadius
-        ) as number;
-        this.radius /= 100;
+        let results = utils.assignNullableAttributes(this.optionsElement, options);
+        this.gradientCenter$[0] = results.next().value;
+        this.gradientCenter$[1] = results.next().value;
+        this.size$ = results.next().value;
+        this.startPosition$[0] = this.gradientCenter$[0];
+        this.startPosition$[1] = this.gradientCenter$[1];
     }
 
     updatePosition(position: Coordinate, movement: Coordinate) {
-        if (this.gradientType == GradientType.Linear) this.updateLinearPosition(position, movement);
-        else this.updateRadialPosition(position, movement);
+        if (this.gradientType == GradientType.Linear)
+            this.updateLinearPosition(position, movement);
+        else
+            this.updateRadialPosition(position, movement);
     }
 
     updateRadialPosition(position: Coordinate, movement: Coordinate) {
-        this.gradientCenter[0] = movement[0] + this.startPosition[0];
-        this.gradientCenter[1] = movement[1] + this.startPosition[1];
-        if (this.gradientCenter[0] > 1) this.gradientCenter[0] = this.gradientCenter[0] - 1;
-        if (this.gradientCenter[0] < 0) this.gradientCenter[0] = 1 + this.gradientCenter[0];
+        this.gradientCenter$[0] = movement[0] + this.startPosition$[0];
+        this.gradientCenter$[1] = movement[1] + this.startPosition$[1];
+        if (this.gradientCenter$[0] > 100) this.gradientCenter$[0] = this.gradientCenter$[0] - 100;
+        if (this.gradientCenter$[0] < 0) this.gradientCenter$[0] = 100 + this.gradientCenter$[0];
 
-        if (this.gradientCenter[1] > 1) this.gradientCenter[1] = this.gradientCenter[1] - 1;
-        if (this.gradientCenter[1] < 0) this.gradientCenter[1] = 1 + this.gradientCenter[1];
+        if (this.gradientCenter$[1] > 100) this.gradientCenter$[1] = this.gradientCenter$[1] - 100;
+        if (this.gradientCenter$[1] < 0) this.gradientCenter$[1] = 100 + this.gradientCenter$[1];
     }
 
     updateLinearPosition(position: Coordinate, movement: Coordinate) {
-        this.gradientCenter[0] = movement[0] + this.startPosition[0];
-        if (this.gradientCenter[0] > 1) this.gradientCenter[0] = this.gradientCenter[0] - 1;
-        if (this.gradientCenter[0] < 0) this.gradientCenter[0] = 1 + this.gradientCenter[0];
+        this.gradientCenter$[0] = movement[0] + this.startPosition$[0];
+        if (this.gradientCenter$[0] > 100) this.gradientCenter$[0] = this.gradientCenter$[0] - 100;
+        if (this.gradientCenter$[0] < 0) this.gradientCenter$[0] = 100 + this.gradientCenter$[0];
     }
 
-    get visibleWindowWidth() {
-        return this.windowWidth;
+    get size() {
+        return this.size$;
     }
+
+    get gradientCenter() {
+        return [this.gradientCenter$[0], this.gradientCenter$[1]];
+    }
+
+    set gradientCenter(gradientCenter: Coordinate) {
+        this.gradientCenter$[0] = gradientCenter[0];
+        this.gradientCenter$[1] = gradientCenter[1];
+        this.startPosition$[0] = gradientCenter[0]
+        this.startPosition$[1] = gradientCenter[1];
+    }
+
+
+    protected size$: number;
+    protected startPosition$: Coordinate;
+    protected gradientCenter$: Coordinate;
 
     protected positionIncrement: number;
-    protected windowWidth: number;
-    protected startPosition: Coordinate;
-    protected gradientCenter: Coordinate;
-    protected radius: number;
     protected gradientTransitionWidth: number;
+    
     protected animationState: AnimationState;
     protected sliderType: SliderType;
     protected gradientType: GradientType;

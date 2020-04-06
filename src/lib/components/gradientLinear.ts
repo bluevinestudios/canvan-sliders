@@ -60,11 +60,11 @@ export class GradientLinear extends Gradient {
             let range = ranges[i];
             if (range.positionRange.width > constants.minimumGradientWidth) {
                 this.canvasGradient.addColorStop(
-                    range.positionRange.min,
+                    range.positionRange.min / 100,
                     `rgba(255, 255, 255, ${range.opacityRange.min})`
                 );
                 this.canvasGradient.addColorStop(
-                    range.positionRange.max,
+                    range.positionRange.max / 100,
                     `rgba(255, 255, 255, ${range.opacityRange.max})`
                 );
             }
@@ -90,11 +90,11 @@ export class GradientLinear extends Gradient {
         // If our visible window is fully off-screen to the left then we move it to the right as though it slid
         // from right to left.
         if (positionRange.min < 0 && positionRange.max < 0) {
-            ranges.push(MakeGradientRange(new Range(1 + positionRange.min, 1 + positionRange.max), opacityRange));
+            ranges.push(MakeGradientRange(new Range(100 + positionRange.min, 100 + positionRange.max), opacityRange));
         }
         // Likewise, if our visible window is fully off-screen to the right then we slide it to the left.
-        if (positionRange.min > 1 && positionRange.max > 1) {
-            ranges.push(MakeGradientRange(new Range(positionRange.min - 1, positionRange.max - 1), opacityRange));
+        if (positionRange.min > 100 && positionRange.max > 100) {
+            ranges.push(MakeGradientRange(new Range(positionRange.min - 100, positionRange.max - 100), opacityRange));
         }
 
         if (positionX1 < 0) {
@@ -103,11 +103,11 @@ export class GradientLinear extends Gradient {
             ranges.push(MakeGradientRange(new Range(0, positionX2), new Range(truncatedLeftOpacity, stopOpacity)));
             // This is a range on the right side ending at 100% -- the effect is a full wraparound of the gradient
             // window.
-            ranges.push(MakeGradientRange(new Range(1 + positionX1, 1), new Range(startOpacity, truncatedLeftOpacity)));
-        } else if (positionX2 > 1) {
-            let truncatedRightOpacity = positionRange.mapValueToRange(1, opacityRange);
-            ranges.push(MakeGradientRange(new Range(positionX1, 1), new Range(startOpacity, truncatedRightOpacity)));
-            ranges.push(MakeGradientRange(new Range(0, 1 - positionX2), new Range(truncatedRightOpacity, stopOpacity)));
+            ranges.push(MakeGradientRange(new Range(100 + positionX1, 1), new Range(startOpacity, truncatedLeftOpacity)));
+        } else if (positionX2 > 100) {
+            let truncatedRightOpacity = positionRange.mapValueToRange(100, opacityRange);
+            ranges.push(MakeGradientRange(new Range(positionX1, 100), new Range(startOpacity, truncatedRightOpacity)));
+            ranges.push(MakeGradientRange(new Range(0, 100 - positionX2), new Range(truncatedRightOpacity, stopOpacity)));
         } else {
             ranges.push(MakeGradientRange(positionRange, opacityRange));
         }

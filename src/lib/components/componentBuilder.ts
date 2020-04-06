@@ -1,12 +1,12 @@
-import * as utils from '../utils';
-import * as constants from '../constants';
-import { TouchHandler } from './touchHandler';
-import { EventDispatcher } from './eventDispatcher';
-import { Animator } from './animation/animator';
-import { ComponentOptions } from './componentOptions';
-import { MultiCanvasAnimationElement } from './animation/multiCanvasAnimationElement';
-import { MultiCanvasAxisSlider } from './animation/sliders/multiCanvasAxisSlider';
-import { SliderType, GradientType } from './animation/sliders/axisSliderTypes';
+import * as utils from "../utils";
+import * as constants from "../constants";
+import { TouchHandler } from "./touchHandler";
+import { EventDispatcher } from "./eventDispatcher";
+import { Animator } from "./animation/animator";
+import { ComponentOptions } from "./componentOptions";
+import { MultiCanvasAnimationElement } from "./animation/multiCanvasAnimationElement";
+import { MultiCanvasAxisSlider } from "./animation/sliders/multiCanvasAxisSlider";
+import { SliderType, GradientType } from "./animation/sliders/axisSliderTypes";
 
 /**
  * ComponentBuilder parses and initializes a single canvas component on the page (out of potentially many).
@@ -66,13 +66,22 @@ export class ComponentBuilder {
      * Asynchronously parse our children elements.
      */
     async parseAndBuildElements(): Promise<void> {
-        let children = this.container.getElementsByTagName('div');
+        let children = this.container.getElementsByTagName("div");
         for (let index = 0; index < children.length; index++) {
             let classes = children[index].classList;
             if (classes != null) {
                 // Support multiple animation types with this class selection.
                 let gradientType: GradientType;
-                if (classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.linearSliderSelectorName)))
+                let sliderType: SliderType = SliderType.Horizontal;
+
+                if (
+                    classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.staticSliderSelectorName))
+                ) {
+                    gradientType = GradientType.None;
+                    sliderType = SliderType.Static;
+                } else if (
+                    classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.linearSliderSelectorName))
+                )
                     gradientType = GradientType.Linear;
                 else if (
                     classes.contains(utils.addSelectorPrefix(this.selectorPrefix, constants.radialSliderSelectorName))
@@ -82,7 +91,7 @@ export class ComponentBuilder {
                 let sliders = new MultiCanvasAxisSlider(
                     children[index],
                     this.eventDispatcher,
-                    SliderType.Horizontal,
+                    sliderType,
                     gradientType,
                     this.selectorPrefix
                 );

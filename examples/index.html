@@ -6,63 +6,53 @@
 <body>
     <div class="canvan-container">
         <div class="canvan-animator">
-            <div class="canvan-linear-slider" transition-size="1" position-increment="0.1" dragable="true">
+            <div class="canvan-static-slider">
                  <picture>
                      <source srcset="/images/source_example2.webp" type="image/webp" />
-                     <img src="/images/source_example2.jpg" type="image/jpeg"  static="true"/>
+                     <img src="/images/source_example2.jpg" type="image/jpeg" />
                  </picture>
+            </div>
+            <div class="canvan-linear-slider" transition-size="5" position-increment="0.1" dragable="true">
                  <picture>
                      <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                     <img src="/images/mapped_example2.jpg" type="image/jpeg" window-width="50" start-position-x="50"/>
-                 </picture>
-
+                     <img src="/images/mapped_example2.jpg" type="image/jpeg" size="50"/>
+                 </picture>                
                  <picture>
                      <source srcset="/images/color_example2.webp" type="image/webp" />
-                     <img src="/images/color_example2.jpg" type="image/jpeg" window-width="20" start-position-x="60"/>
+                     <img src="/images/color_example2.jpg" type="image/jpeg" size="20"/>
                  </picture>
-             </div> 
+             </div>              
+        </div>
+    </div>
+
+    <div class="canvan-container">
+        <div class="canvan-animator">
+            <div class="canvan-static-slider">
+                 <picture>
+                     <source srcset="/images/source_example1.webp" type="image/webp" />
+                     <img src="/images/source_example1.jpg" type="image/jpeg" />
+                 </picture>
+            </div>
              <div class="canvan-radial-slider" transition-size="1" position-increment="0.5" dragable="true">
                 <picture>
-                    <source srcset="/images/source_example2.webp" type="image/webp" />
-                    <img src="/images/source_example2.jpg" type="image/jpeg" radius="10" start-position-x="0" start-position-y="40" />
+                    <source srcset="/images/source_example1.webp" type="image/webp" />
+                    <img src="/images/source_example1.jpg" type="image/jpeg" static="true" />
                 </picture>
                 <picture>
-                    <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                    <img src="/images/mapped_example2.jpg" type="image/jpeg" radius="10" start-position-x="15" start-position-y="80" />
+                    <source srcset="/images/mapped_example1.webp" type="image/webp" />
+                    <img src="/images/mapped_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="20" />
                 </picture>
                 <picture>
-                    <source srcset="/images/color_example2.webp" type="image/webp" />
-                    <img src="/images/color_example2.jpg" type="image/jpeg" radius="10" start-position-x="80" start-position-y="10" />
+                    <source srcset="/images/color_example1.webp" type="image/webp" />
+                    <img src="/images/color_example1.jpg" type="image/jpeg" size="10" start-position-x="50" start-position-y="50" />
+                </picture>
+                <picture>
+                    <source srcset="/images/final_example1.webp" type="image/webp" />
+                    <img src="/images/final_example1.jpg" type="image/jpeg" size="10" start-position-x="20" start-position-y="70"  />
                 </picture>
             </div>
         </div>
     </div>
-
-    <!--<div class="canvan-container">
-        <div class="canvan-embed"
-            <div class="canvan" transition-width="1" position-increment="0.5" dragable="true">
-                <picture>
-                    <source srcset="/images/source_example2.webp" type="image/webp" />
-                    <img src="/images/source_example2.jpg" type="image/jpeg" window-width="0.0"/>
-                </picture>
-
-                <picture>
-                    <source srcset="/images/final_example2.webp" type="image/webp" />
-                    <img src="/images/final_example2.jpg" type="image/jpeg" start-position="auto" window-width="20"  />
-                </picture>
-
-                <picture>
-                    <source srcset="/images/mapped_example2.webp" type="image/webp" />
-                    <img src="/images/mapped_example2.jpg" type="image/jpeg" start-position="auto" window-width="20" />
-                </picture>
-
-                <picture>
-                    <source srcset="/images/color_example2.webp" type="image/webp" />
-                    <img src="/images/color_example2.jpg" type="image/jpeg" start-position="auto" window-width="10" />
-                </picture>
-            </div>
-        </div>
-    </div> -->
 
     <script src="/js/main.js"></script>
 </body>

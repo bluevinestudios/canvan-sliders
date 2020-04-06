@@ -32,6 +32,7 @@ export abstract class MultiCanvasAnimationElement implements Animatable {
     abstract parseOptions();
     abstract step(timestamp: number);
     abstract get active(): boolean;
+    abstract set active(active: boolean);
     abstract parseAndBuildChildren(): void;
 
     protected canvasLayers: CanvasAnimationElement[];

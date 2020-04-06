@@ -16,12 +16,14 @@ export class GradientRadial extends Gradient {
         gradientTransitionWidth: number
     ) {
         super(context, gradientTransitionWidth);
+        let x = width * (centerPosition[0] / 100);
+        let y = height * (centerPosition[1] / 100);
         this.canvasGradient = this.context.createRadialGradient(
-            width * centerPosition[0],
-            height * centerPosition[1],
+            x,
+            y,
             innerRadius,
-            width * centerPosition[0],
-            height * centerPosition[1],
+            x,
+            y,
             outerRadius
         );
 
@@ -32,13 +34,13 @@ export class GradientRadial extends Gradient {
 
     addGradientStops() {
         let ranges: GradientRange[] = [];
-        ranges.push(MakeGradientRange(new Range(0, 0.75), new Range(0.0, 0.0)));
-        ranges.push(MakeGradientRange(new Range(0.75, 1.0), new Range(0.0, 1.0)));
+        ranges.push(MakeGradientRange(new Range(0, 75), new Range(0.0, 0.0)));
+        ranges.push(MakeGradientRange(new Range(75, 100), new Range(0.0, 1.0)));
 
         for (let i = 0; i < ranges.length; i++) {
             let range = ranges[i];
-            this.canvasGradient.addColorStop(range.positionRange.min, `rgba(255, 255, 255, ${range.opacityRange.min})`);
-            this.canvasGradient.addColorStop(range.positionRange.max, `rgba(255, 255, 255, ${range.opacityRange.max})`);
+            this.canvasGradient.addColorStop(range.positionRange.min / 100, `rgba(255, 255, 255, ${range.opacityRange.min})`);
+            this.canvasGradient.addColorStop(range.positionRange.max / 100, `rgba(255, 255, 255, ${range.opacityRange.max})`);
         }
     }
 
